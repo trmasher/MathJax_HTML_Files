@@ -86,13 +86,14 @@ We will first find the total cost as a function of any given collection of $p$ v
 Let $T=G$ be as before, and let
 $$F_p=(\mathscr f_1,\dots,\mathscr f_p:p\leq n \in \Bbb N)$$ be a collection of some $p$ vertices in $T$ which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for $T$. Let
 $$W=(w_1,\ldots,w_n:n \in \Bbb N)$$ be such that $w_i$ represents the weight for vertex $v_i \in V$; similarly, define
-$$A=(a_1,\ldots,a_m:m \in \Bbb N)$$ to be the distance between adjacent vertices such that, if
+$$A=(a_1,\ldots,a_m:m \in \Bbb N)$$ to be the (tree-metric) distance<sup><a href="#section2">[ii]</a></sup> between adjacent vertices such that, if
 $$e_k=(e_{k_1},e_{k_2})$$ where $e_{k_1},e_{k_2} \in V$, then
-$$a_k=\lvert e_k\rvert=\lvert e_{k_1} - e_{k_2} \rvert,\forall \ e_k \in E$$
+$$a_k=\lVert e_k\rVert=\lVert e_{k_1} - e_{k_2} \rVert,\forall \ e_k \in E$$
+
 
 <p>
-Let the (tree-metric) distance between any two arbitrary vertices $v_i,v_j \in V$ be denoted as $d_{ij}$, then define the mapping $\psi:v_i \mapsto \psi(v_i)$ to be the minimum weighted distance between vertex $v_i$ and any facility within the potential median set; that is,
-$$\psi(v_i)=w_i \cdot\min_{\mathscr f_z \in F_p}d_{v_i,\mathscr f_z}$$ Finally, let the potential cost of locating a facility at the location $\mathscr f_z$ be defined as the mapping $\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)$.
+Let the distance between any two arbitrary vertices $v_i,v_j \in V$ be defined as the mapping $\delta:(v_i,v_j) \mapsto \delta(v_i,v_j)$, and then define the mapping $\psi:v_i \mapsto \psi(v_i)$ to be the minimum weighted distance between vertex $v_i$ and any facility within the potential median set; that is,
+$$\psi(v_i)=w_i \cdot\min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ Finally, let the potential cost of locating a facility at the location $\mathscr f_z$ be defined as the mapping $\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)$.
 </p>
 
 <p>
@@ -106,19 +107,58 @@ to be the objective function for any given potential median set $F_p \subseteq V
 
 
 
+
 <h2>Creating the General Linear Programming Problem</h2>
 Because we wish to select from any arbitrary potential median set the one for which the objective function is minimized, our goal in solving the p-median problem is to find the median set $\mathscr F_p$ such that 
 $$\mathscr F_p = \min_{F_p \subseteq V} \Gamma (F_p)$$
-We will show that, with a few adjustments in terminology and symbology, this $\mathscr F_p$ fits the form of 
-$\eqref{eq1}$
+We will show that, with a few adjustments in terminology and symbology, this $\mathscr F_p$ fits the form of $\eqref{eq1}$. 
 
 
 
 
+<h3>Rearranging the Objective Function</h3>
+<p>
+Looking just at $\Gamma (F_p)$ alone, we have that our objective function is equal to 
+$$\sum_{z=1}^p \gamma (\mathscr f_z) + \sum_{i=1}^n \psi (v_i)$$ then, using the fact that 
+$$\psi (v_i) = w_i \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ our objective function can be written as
+$$\sum_{z=1}^p \gamma (\mathscr f_z) + \sum_{i=1}^n w_i \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$
+</p>
 
+To proceed any further, we need to formulate the two-variable function $\delta$ using known quantities given from the problem. For the first case, suppose the vertex in question is an element of the median set; that is, $v_i \in F_p$. If we now define the notation $$\delta (v_i, F_p) = \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ 
+then it follows that $\delta (v_i,F_p) = 0$. 
+</p>
+
+<p>
+For all other cases, we suppose that $v_i \notin F_p$. Then, $\forall\ \mathscr f_z \in F_p$ because $T$ is connected, there exists some set $K \subset V$ such that every element $k \neq v_i \text{ and } k \neq \mathscr f_z$ in $K$ lies on a path connecting $v_i$ to $\mathscr f_z$; furthermore, because $T$ is acyclic, this path is <il>the</il> unique path connecting $v_i$ and $\mathscr f_z$. Before proceeding, let the mapping $\phi: (v_i, \mathscr f_z) \mapsto K$ formally define $K$ for a given $v_i,\mathscr f_z$ when the vertex and facility in question are ambiguous.
+</p>
+
+<p>
+Let us denote the $q$ elements $k_q \in K$ to be such that 
+$$k_q=\mathscr f_z \text{ and } \forall\ k_r\ |\ r = 1,2,\ldots,q-1,\  \exists\ e_{k_r} \in E\ |\ e_{k_r} = (k_r,k_{r+1})$$
+Hence, each subset of vertices $K$ of $V$ defined in the above way induces a subset of edges $(e_{k_1},e_{k_2},\ldots,e_{k_{q-1}}) \subset E$. As before, we define the mapping $\Phi: K \mapsto \epsilon$ to formally define $\epsilon$ for a given $K$ for a given $v_i,\mathscr f_z$ by 
+$$\epsilon = \Phi (K) = (\Phi \circ \phi)(v_i,\mathscr f_z)$$
+which is composed of $q-1$ elements 
+$$\epsilon_r = \Phi_r (k) = (\Phi \circ \phi)_r (v_i,\mathscr f_z)$$
+We define one final mapping before proceeding: $\varepsilon: (v_i,\mathscr f_z,r) \mapsto \epsilon$ as 
+$$\varepsilon_r (v_i,\mathscr f_z) = (\Phi \circ \phi)_r (v_i,\mathscr f_z)= \epsilon_r$$
+</p>
+
+<p>
+Recall that the set $A$ is defined such that $\forall\ a_k \in A,\ \exists \text{ corresponding } e_k \in E$. Hence, being careful about our notation, $\forall\ \epsilon_r \in \epsilon \subset E,\ \exists \text{ corresponding } a_{\epsilon_r} \in A_{\epsilon} \subset A$. Thus, it follows that the subset $A_{\epsilon} \subset A$ represents the distances between each adjacent node within the set $K \in V$, $\forall\ v_i \in V$ and $\forall\ \mathscr f_z \in F_p$, hence $$\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r}= \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)$$ leading to $$\psi (v_i) = w_i \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)$$ and thus $$\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_i \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)$$
+</p>
+<p>
+Let $\xi$ denote the sum of all $\varepsilon$ for given $v_i,\mathscr f_z$: $$\xi (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z) $$
+Our objective function has now become $$\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_i \cdot \xi (v_i,\mathscr f_z) $$
+Finally, because there exists a one-to-one correspondence between $v_i \in V \text{ and } i=1,2,\cdots,n$ as well as between $\mathscr f_z \in F_p \text{ and } z=1,2,\cdots,n$
 
 
 <br>
 
+
+
+
+
+
 <h1>References:</h1>
 <p id="section1">[i] "(PDF) A New Template for Solving p-Median Problems for Trees in Sub-Quadratic Time." ResearchGate. Accessed April 22, 2019. <cite>https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time</cite>.</p>
+<p id="section2">[ii] For simplicity, by the term "tree-metric distance" here, we are meaning to say that the distance between any two nodes of $T$ is given by the "tree-path" distance described by the topology of the tree itself.

@@ -1,150 +1,225 @@
-<html>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>The p-median Problem</title>
+
+<script src="Travis_p-median_Problem_files/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="Travis_p-median_Problem_files/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="Travis_p-median_Problem_files/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="Travis_p-median_Problem_files/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="Travis_p-median_Problem_files/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="Travis_p-median_Problem_files/navigation-1.1/tabsets.js"></script>
+<link href="Travis_p-median_Problem_files/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="Travis_p-median_Problem_files/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
-.knitr .inline {
-  background-color: #f7f7f7;
-  border:solid 1px #B0B0B0;
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
 }
-.error {
-	font-weight: bold;
-	color: #FF0000;
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
 }
-.warning {
-	font-weight: bold;
+h1.title {
+  font-size: 38px;
 }
-.message {
-	font-style: italic;
+h2 {
+  font-size: 30px;
 }
-.source, .output, .warning, .error, .message {
-	padding: 0 1em;
-  border:solid 1px #F7F7F7;
+h3 {
+  font-size: 24px;
 }
-.source {
-  background-color: #f5f5f5;
+h4 {
+  font-size: 18px;
 }
-.rimage .left {
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
   text-align: left;
 }
-.rimage .right {
-  text-align: right;
-}
-.rimage .center {
-  text-align: center;
-}
-.hl.num {
-  color: #AF0F91;
-}
-.hl.str {
-  color: #317ECC;
-}
-.hl.com {
-  color: #AD95AF;
-  font-style: italic;
-}
-.hl.opt {
-  color: #000000;
-}
-.hl.std {
-  color: #585858;
-}
-.hl.kwa {
-  color: #295F94;
-  font-weight: bold;
-}
-.hl.kwb {
-  color: #B05A65;
-}
-.hl.kwc {
-  color: #55aa55;
-}
-.hl.kwd {
-  color: #BC5A65;
-  font-weight: bold;
-}
 </style>
-<title>p-median Problem</title>
+
+
 </head>
 
 <body>
 
-<h1>The p-median Problem</h1>
-<h2>Statement of the Problem</h2>
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
 
-The p-median problem is an application of linear optimization approaches with respect to a graph. Specifically,  it is a facility-location model with the purpose of locating $p$ facilities (hereafter referred to as vertices or nodes) to minimize a constraint equation based on weighted average distances between demand nodes and selection location nodes.
 
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">The p-median Problem</h1>
+
+</div>
+
+
+<h1>
+Statement of the Problem
+</h1>
+<p>The p-median problem is an application of linear optimization approaches with respect to a graph. Specifically, it is a facility-location model with the purpose of locating <span class="math inline">\(p\)</span> facilities (hereafter referred to as vertices or nodes) to minimize a constraint equation based on weighted average distances between demand nodes and selection location nodes.</p>
 <p>
-Stated more formally, given some graph $G=(V,E)$ where $$V=(v_1,\ldots,v_n: n \in \Bbb N)$$ is a set of nodes of $G$, each representing a demand weight, and where $$E=(e_1,\ldots,e_m: m \in \Bbb N)$$ is a set of connected nodes of $G$, the p-median problem seeks to find any number $p$ vertices such that the sum of the weighted distances from each vertex in $G$ to the closest facility is minimized. The lengths between each vertex and each facility is calculated by taking the absolute value of each member of $E$ that represents a successive path connection of nodes in between the two and computing their sum.
+Stated more formally, given some graph <span class="math inline">\(G=(V,E)\)</span> where <span class="math display">\[V=(v_1,\ldots,v_n: n \in \Bbb N)\]</span> is a set of nodes of <span class="math inline">\(G\)</span>, each representing a demand weight, and where <span class="math display">\[E=(e_1,\ldots,e_m: m \in \Bbb N)\]</span> is a set of connected nodes of <span class="math inline">\(G\)</span>, the p-median problem seeks to find any number <span class="math inline">\(p\)</span> vertices such that the sum of the weighted distances from each vertex in <span class="math inline">\(G\)</span> to the closest facility is minimized. The lengths between each vertex and each facility is calculated by taking the absolute value of each member of <span class="math inline">\(E\)</span> that represents a successive path connection of nodes in between the two and computing their sum.
 </p>
-
 <p>
 In this paper, we will be discussing how exactly this calculation is performed. Three sections will be covered:
 <ul>
-<li>Rectifying the Issue of Computational Complexity</li>
-<li>Setting up the p-median Problem as a Linear Programming Problem</li>
-<li>Finding a Solution to a Linear Programming Problem</li>
+<li>
+Rectifying the Issue of Computational Complexity
+</li>
+<li>
+Setting up the p-median Problem as a Linear Programming Problem
+</li>
+<li>
+Finding a Solution to a Linear Programming Problem
+</li>
 </ul>
 </p>
-
-<br>
-
- 
-<h2>Rectifying the Issue of Computational Complexity</h2>
-Unfortunately, when attempting to perform optimization calculations for this problem using a general graph, the computation time is $\mathcal N \mathcal P$-hard. We can rectify this however by formulating the problem using a mathematical tree.
-
+<p><br></p>
+<h1>
+Rectifying the Issue of Computational Complexity
+</h1>
+<p>Unfortunately, when attempting to perform optimization calculations for this problem using a general graph, the computation time is <span class="math inline">\(\mathcal N \mathcal P\)</span>-hard. We can rectify this however by formulating the problem using a mathematical tree.</p>
 <p>
-Given some graph $G=(V,E)$ where
-$$V=(v_1,\ldots,v_n: n \in \Bbb N)$$ is a set of nodes of $G$, and where
-$$E=(e_1,\ldots,e_m: m \in \Bbb N)$$ is a set of connected nodes of $G$, we call the graph $T=G$ a <b>tree</b> if it is undirected, connected, and contains no cycles. From the procedures detailed in (Benkoczi et al.) , if $T$ is a both rooted and binary tree, then an $O(nlog^{p+2}n)$ algorithm exists; thus, a solution to the p-median problem on $T$ can be computed in polynomial time.
+Given some graph <span class="math inline">\(G=(V,E)\)</span> where <span class="math display">\[V=(v_1,\ldots,v_n: n \in \Bbb N)\]</span> is a set of nodes of <span class="math inline">\(G\)</span>, and where <span class="math display">\[E=(e_1,\ldots,e_m: m \in \Bbb N)\]</span> is a set of connected nodes of <span class="math inline">\(G\)</span>, we call the graph <span class="math inline">\(T=G\)</span> a <b>tree</b> if it is undirected, connected, and contains no cycles. From the procedures detailed in (Benkoczi et al.)<sup><a href="#section1">[i]</a></sup>, if <span class="math inline">\(T\)</span> is a both rooted and binary tree, then an <span class="math inline">\(O(nlog^{p+2}n)\)</span> algorithm exists; thus, a solution to the p-median problem on <span class="math inline">\(T\)</span> can be computed in polynomial time.
 </p>
-
 <p>
-If $T$ is not rooted, then it can be made to be so by arbitrarily selecting a vertex to designate as its root. If $T$ is not binary, then $T$ may be made to be binary by adding a linear number of vertices and edges to that set. Because it follows that any object that is composed of a linear function of objects that can be solved in polynomial time is itself solvable in polynomial time, then it follows that a tree $T$ which is neither rooted nor binary can also be solved in polynomial time.
+If <span class="math inline">\(T\)</span> is not rooted, then it can be made to be so by arbitrarily selecting a vertex to designate as its root. If <span class="math inline">\(T\)</span> is not binary, then <span class="math inline">\(T\)</span> may be made to be binary by adding a linear number of vertices and edges to that set. Because it follows that any object that is composed of a linear function of objects that can be solved in polynomial time is itself solvable in polynomial time, then it follows that a tree <span class="math inline">\(T\)</span> which is neither rooted nor binary can also be solved in polynomial time.
 </p>
-
 <p>
-Thus, because the graph $G$ for the p-median problem can be formulated as the tree $T=G$, it follows that we can calculate a solution for the p-median problem in polynomial time.
+Thus, because the graph <span class="math inline">\(G\)</span> for the p-median problem can be formulated as the tree <span class="math inline">\(T=G\)</span>, it follows that we can calculate a solution for the p-median problem in polynomial time.
 </p>
-
-<br>
- 
-<h2>Setting up the p-median Problem as a Linear Programming Problem</h2>
+<p><br></p>
+<h1>
+Setting up the p-median Problem as a Linear Programming Problem
+</h1>
 <p>
 Now that we have established that we can find a solution to the p-median problem in polynomial time by setting up the problem as a tree, we desire to formulate the p-median problem as a linear programming problem. The form for the general linear programming problem is as follows:
 <blockquote>
-Minimize $$f(\mathbf X) = \sum_{i=1}^n c_i x_i \tag{1}$$ subject to $$\sum_{i=1}^n a_{ij} x_i = b_j \forall \ j=1,2,\ldots,m \tag{2}$$ and $$x_i\ge 0, \forall \ i=1,2,\ldots,n \tag{3}$$ where $$a_{ij},c_i \in \Bbb R \text{, } b_j \ge 0 \text{, and } m\lt n \tag{4}$$
+Minimize <span class="math display">\[f(\mathbf X) = \sum_{i=1}^n c_i x_i \tag{1}\label{eq1}\]</span> subject to <span class="math display">\[\sum_{i=1}^n a_{ij} x_i = b_j \forall \ j=1,2,\ldots,m \tag{2}\label{eq2}\]</span> and <span class="math display">\[x_i\ge 0, \forall \ i=1,2,\ldots,n \tag{3}\label{eq3}\]</span> where <span class="math display">\[a_{ij},c_i \in \Bbb R \text{, } b_j \ge 0 \text{, and } m\lt n \tag{4}\label{eq4}\]</span>
 </blockquote>
-
 <p>
-We will first find the total cost as a function of any given collection of $p$ vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these two procedures into two subsections.
+We will first find the total cost as a function of any given collection of <span class="math inline">\(p\)</span> vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these two procedures into two subsections.
+</p>
+<p><br></p>
+<h2>
+Formulating the Objective Function
+</h2>
+<p>Let <span class="math inline">\(T=G\)</span> be as before, and let <span class="math display">\[F_p=(\mathscr f_1,\dots,\mathscr f_p:p\leq n \in \Bbb N)\]</span> be a collection of some <span class="math inline">\(p\)</span> vertices in <span class="math inline">\(T\)</span> which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for <span class="math inline">\(T\)</span>. Let <span class="math display">\[W=(w_1,\ldots,w_n:n \in \Bbb N)\]</span> be such that <span class="math inline">\(w_i\)</span> represents the weight for vertex <span class="math inline">\(v_i \in V\)</span>; similarly, define <span class="math display">\[A=(a_1,\ldots,a_m:m \in \Bbb N)\]</span> to be the distance between adjacent vertices such that, if <span class="math display">\[e_k=(e_{k_1},e_{k_2})\]</span> where <span class="math inline">\(e_{k_1},e_{k_2} \in V\)</span>, then <span class="math display">\[a_k=\lvert e_k\rvert=\lvert e_{k_1} - e_{k_2} \rvert,\forall \ e_k \in E\]</span></p>
+<p>
+Let the (tree-metric) distance between any two arbitrary vertices <span class="math inline">\(v_i,v_j \in V\)</span> be denoted as <span class="math inline">\(d_{ij}\)</span>, then define the mapping <span class="math inline">\(\psi:v_i \mapsto \psi(v_i)\)</span> to be the minimum weighted distance between vertex <span class="math inline">\(v_i\)</span> and any facility within the potential median set; that is, <span class="math display">\[\psi(v_i)=w_i \cdot\min_{\mathscr f_z \in F_p}d_{v_i,\mathscr f_z}\]</span> Finally, let the potential cost of locating a facility at the location <span class="math inline">\(\mathscr f_z\)</span> be defined as the mapping <span class="math inline">\(\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)\)</span>.
+</p>
+<p>
+We are now ready to formulate our objective function for any given potential median set: we define the mapping <span class="math inline">\(\Gamma: F_p \mapsto \Gamma(F_p)\)</span> by <span class="math display">\[\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi(v_i)\]</span> to be the objective function for any given potential median set <span class="math inline">\(F_p \subseteq V\)</span>.
+</p>
+<p><br></p>
+<h2>
+Creating the General Linear Programming Problem
+</h2>
+<p>Because we wish to select from any arbitrary potential median set the one for which the objective function is minimized, our goal in solving the p-median problem is to find the median set <span class="math inline">\(\mathscr F_p\)</span> such that <span class="math display">\[\mathscr F_p = \min_{F_p \subseteq V} \Gamma (F_p)\]</span> We will show that, with a few adjustments in terminology and symbology, this <span class="math inline">\(\mathscr F_p\)</span> fits the form of <span class="math inline">\(\eqref{eq1}\)</span></p>
+<p><br></p>
+<h1>
+References:
+</h1>
+<p id="section1">
+[i] “(PDF) A New Template for Solving p-Median Problems for Trees in Sub-Quadratic Time.” ResearchGate. Accessed April 22, 2019. <cite><a href="https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time" class="uri">https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time</a></cite>.
 </p>
 
-<br>
 
-<h3>Formulating the Objective Function</h3>
 
-Let $T=G$ be as before, and let
-$$F_p=(\mathscr f_1,\dots,\mathscr f_p:p\leq n \in \Bbb N)$$ be a collection of some $p$ vertices in $T$ which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for $T$. Let
-$$W=(w_1,\ldots,w_n:n \in \Bbb N)$$ be such that $w_i$ represents the weight for vertex $v_i \in V$; similarly, define
-$$A=(a_1,\ldots,a_m:m \in \Bbb N)$$ to be the distance between adjacent vertices such that, if
-$$e_k=(e_{k_1},e_{k_2})$$ where $e_{k_1},e_{k_2} \in V$, then
-$$a_k=\lvert e_k\rvert=\lvert e_{k_1} - e_{k_2} \rvert,\forall \ e_k \in E$$
 
-<p>
-Let the (tree-metric) distance between any two arbitrary vertices $v_i,v_j \in V$ be denoted as $d_{ij}$, then define the mapping $\psi:v_i \mapsto \psi(v_i)$ to be the minimum weighted distance between vertex $v_i$ and any facility within the potential median set; that is,
-$$\psi(v_i)=w_i \cdot\min_{\mathscr f_z \in F_p}d_{v_i,\mathscr f_z}$$ Finally, let the potential cost of locating a facility at the location $\mathscr f_z$ be defined as the mapping $\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)$.
-</p>
+</div>
 
-<p>
-We are now ready to formulate our objective function for any given potential median set: we define the mapping $\Gamma: F_p \mapsto \Gamma(F_p)$ by
-$$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi(v_i)$$
-to be the objective function for any given potential median set $F_p \subseteq V$.
-</p>
+<script>
 
-<br>
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
 
-<h3>Creating the General Linear Programming Problem</h3>
-Because we wish to select from any arbitrary potential median set the one for which the objective function is minimized, our goal in solving the p-median problem is to find the median set $\mathscr F_p$ such that $$\mathscr F_p = \min_{F_p \subseteq V} \Gamma (F_p)$$
-We will show that, with a few adjustments in terminology and symbology, this $\mathscr F_p$ fits the form
-<blockquote>
-Minimize $$f(\mathbf X) = \sum_{i=1}^n c_i x_i$$
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "Travis_p-median_Problem_files/mathjax-local/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

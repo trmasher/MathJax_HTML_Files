@@ -122,9 +122,40 @@ $(document).ready(function () {
 </div>
 
 
-<h1>
-Statement of the Problem
-</h1>
+<style>
+
+  h1.title {
+    text-align: center;
+    font-size: 46px;
+    font-style: bold;
+    margin-bottom: 25px;
+  }
+
+
+  .figure {
+    position: relative;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    margin: 25px 0 40px;
+  }
+
+
+  .container {
+    position: relative;
+    font-size: 16px;
+    font-style: italic;
+    font-family: serif;
+    width: 100%;
+    margin: 0 0 15px; 
+    border-style: double;
+    border-width: thick;
+    background-color: rgba(255, 204, 153, 0.2);
+  }  
+    
+
+</style>
+<div id="statement-of-the-problem" class="section level1">
+<h1>Statement of the Problem</h1>
 <p>The p-median problem is an application of linear optimization approaches with respect to a graph. Specifically, it is a facility-location model with the purpose of locating <span class="math inline">\(p\)</span> facilities (hereafter referred to as vertices or nodes) to minimize a constraint equation based on weighted average distances between demand nodes and selection location nodes.</p>
 <p>
 Stated more formally, given some graph <span class="math inline">\(G=(V,E)\)</span> where <span class="math display">\[V=(v_1,\ldots,v_n: n \in \Bbb N)\]</span> is a set of nodes of <span class="math inline">\(G\)</span>, each representing a demand weight, and where <span class="math display">\[E=(e_1,\ldots,e_m: m \in \Bbb N)\]</span> is a set of connected nodes of <span class="math inline">\(G\)</span>, the p-median problem seeks to find any number <span class="math inline">\(p\)</span> vertices such that the sum of the weighted distances from each vertex in <span class="math inline">\(G\)</span> to the closest facility is minimized. The lengths between each vertex and each facility is calculated by taking the absolute value of each member of <span class="math inline">\(E\)</span> that represents a successive path connection of nodes in between the two and computing their sum.
@@ -144,13 +175,20 @@ Finding a Solution to a Linear Programming Problem
 </ul>
 </p>
 <p><br></p>
-<h1>
-Rectifying the Issue of Computational Complexity
-</h1>
+</div>
+<div id="rectifying-the-issue-of-computational-complexity" class="section level1">
+<h1>Rectifying the Issue of Computational Complexity</h1>
 <p>Unfortunately, when attempting to perform optimization calculations for this problem using a general graph, the computation time is <span class="math inline">\(\mathcal N \mathcal P\)</span>-hard. We can rectify this however by formulating the problem using a mathematical tree.</p>
 <p>
-Given some graph <span class="math inline">\(G=(V,E)\)</span> where <span class="math display">\[V=(v_1,\ldots,v_n: n \in \Bbb N)\]</span> is a set of nodes of <span class="math inline">\(G\)</span>, and where <span class="math display">\[E=(e_1,\ldots,e_m: m \in \Bbb N)\]</span> is a set of connected nodes of <span class="math inline">\(G\)</span>, we call the graph <span class="math inline">\(T=G\)</span> a <b>tree</b> if it is undirected, connected, and contains no cycles. From the procedures detailed in (Benkoczi et al.)<sup><a href="#section1">[i]</a></sup>, if <span class="math inline">\(T\)</span> is a both rooted and binary tree, then an <span class="math inline">\(O(nlog^{p+2}n)\)</span> algorithm exists; thus, a solution to the p-median problem on <span class="math inline">\(T\)</span> can be computed in polynomial time.
+Given some graph <span class="math inline">\(G=(V,E)\)</span> where <span class="math display">\[V=(v_1,\ldots,v_n: n \in \Bbb N)\]</span> is a set of nodes of <span class="math inline">\(G\)</span>, and where <span class="math display">\[E=(e_1,\ldots,e_m: m \in \Bbb N)\]</span> is a set of connected nodes of <span class="math inline">\(G\)</span>, we call the graph <span class="math inline">\(T=G\)</span> a <b>tree</b> if it is undirected, connected, and contains no cycles. From the procedures detailed in (Benkoczi et al.)<sup><a href="#section1">[i]</a></sup>, if <span class="math inline">\(T\)</span> is both <b>rooted</b> (meaning that there exists a hierarchy within the tree such that one node is considered to be at the ultimate level) and <b>binary</b> (meaning that for any ‘parent’ node, there are at most two ‘child’ nodes directly below them; taking “below” to mean “at a lower level with respect to the root hierarchy”, ‘parent’ to mean “superior to the child with respect to the hierarchy”, and ‘child’ to mean “inferior to the parent with respect to the hierarchy”), then an <span class="math inline">\(O(nlog^{p+2}n)\)</span> algorithm exists; thus, a solution to the p-median problem on <span class="math inline">\(T\)</span> can be computed in polynomial time.
 </p>
+<div class="figure">
+<figure>
+<img src="Images/rooted_binary_tree.png">
+<div class="container">
+A rooted, binary tree. Note that the designating any other node attached to two or fewer other vertices would once again result in a rooted, binary tree.
+</figure>
+</div>
 <p>
 If <span class="math inline">\(T\)</span> is not rooted, then it can be made to be so by arbitrarily selecting a vertex to designate as its root. If <span class="math inline">\(T\)</span> is not binary, then <span class="math inline">\(T\)</span> may be made to be binary by adding a linear number of vertices and edges to that set. Because it follows that any object that is composed of a linear function of objects that can be solved in polynomial time is itself solvable in polynomial time, then it follows that a tree <span class="math inline">\(T\)</span> which is neither rooted nor binary can also be solved in polynomial time.
 </p>
@@ -158,22 +196,61 @@ If <span class="math inline">\(T\)</span> is not rooted, then it can be made to 
 Thus, because the graph <span class="math inline">\(G\)</span> for the p-median problem can be formulated as the tree <span class="math inline">\(T=G\)</span>, it follows that we can calculate a solution for the p-median problem in polynomial time.
 </p>
 <p><br></p>
-<h1>
-Setting up the p-median Problem as a Linear Programming Problem
-</h1>
+</div>
+<div id="setting-up-the-p-median-problem-as-a-linear-programming-problem" class="section level1">
+<h1>Setting up the p-median Problem as a Linear Programming Problem</h1>
 <p>
 Now that we have established that we can find a solution to the p-median problem in polynomial time by setting up the problem as a tree, we desire to formulate the p-median problem as a linear programming problem. The form for the general linear programming problem is as follows:
 <blockquote>
 Minimize <span class="math display">\[f(\mathbf X) = \sum_{i=1}^n c_i x_i \tag{1}\label{eq1}\]</span> subject to <span class="math display">\[\sum_{i=1}^n a_{ij} x_i = b_j \forall \ j=1,2,\ldots,m \tag{2}\label{eq2}\]</span> and <span class="math display">\[x_i\ge 0, \forall \ i=1,2,\ldots,n \tag{3}\label{eq3}\]</span> where <span class="math display">\[a_{ij},c_i \in \Bbb R \text{, } b_j \ge 0 \text{, and } m\lt n \tag{4}\label{eq4}\]</span>
 </blockquote>
 <p>
-We will first find the total cost as a function of any given collection of <span class="math inline">\(p\)</span> vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these two procedures into two subsections.
+We will begin by defining the terminology of bipartite graphs to make use of in subsequent calculations. Next, we will formulate the the total cost as a function of any given collection of <span class="math inline">\(p\)</span> vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these procedures into three subsections.
 </p>
 <p><br></p>
-<h2>
-Formulating the Objective Function
-</h2>
-<p>Let <span class="math inline">\(T=G\)</span> be as before, and let <span class="math display">\[F_p=(\mathscr f_1,\dots,\mathscr f_p:p\leq n \in \Bbb N)\]</span> be a collection of some <span class="math inline">\(p\)</span> vertices in <span class="math inline">\(T\)</span> which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for <span class="math inline">\(T\)</span>. Let <span class="math display">\[W=(w_1,\ldots,w_n:n \in \Bbb N)\]</span> be such that <span class="math inline">\(w_i\)</span> represents the weight for vertex <span class="math inline">\(v_i \in V\)</span>; similarly, define <span class="math display">\[A=(a_1,\ldots,a_m:m \in \Bbb N)\]</span> to be the (tree-metric) distance<sup><a href="#section2">[ii]</a></sup> between adjacent vertices such that, if <span class="math display">\[e_k=(e_{k_1},e_{k_2})\]</span> where <span class="math inline">\(e_{k_1},e_{k_2} \in V\)</span>, then <span class="math display">\[a_k=\lVert e_k\rVert=\lVert e_{k_1} - e_{k_2} \rVert,\forall \ e_k \in E\]</span></p>
+<div id="bipartite-graphs" class="section level2">
+<h2>Bipartite Graphs</h2>
+<p>At this point, we will define the concept of bipartite graphs to make use of later. Suppose <span class="math inline">\(G=(V,E)\)</span> is a graph;; that is, <span class="math inline">\(G\)</span> is an ordered pair <span class="math inline">\(G=(V,E)\)</span> comprised of <span class="math inline">\(V\)</span>, a set of nodes or “vertices”, as well as <span class="math inline">\(E\)</span>, a set of edges or “links”. For bipartite graphs, the only (fundamental) change is that we now divide the vertex set <span class="math inline">\(V\)</span> into two disjoint and independent subsets of vertices; that is, <span class="math display">\[X,Y : X \cap Y = \emptyset \text{ and } X \cup Y = V \]</span> Furthermore, an additional restriction is placed upon each edge element: if <span class="math inline">\(e_k \in E\)</span> is any edge of <span class="math inline">\(G\)</span>, then <span class="math inline">\(e_k\)</span> connects an element in <span class="math inline">\(X\)</span> to an element in <span class="math inline">\(Y\)</span>; that is, <span class="math display">\[\text{if } e_k = (v_{e_k},v_{e_k}&#39;) \in E \text{, then } v_{e_k} \in X \iff v_{e_k}&#39; \in Y\]</span></p>
+<div class="figure">
+<figure>
+<img src="Images/bipartite_graphs.png" style="width: 100%;">
+<div class="container">
+An example of a bipartite graph, <span class="math inline">\(G=(V,E)\)</span>. The vertices <span class="math inline">\(V\)</span> are outlined in purple, the vertices of <span class="math inline">\(X \subset V\)</span> are filled in blue, the vertices <span class="math inline">\(Y \subset V\)</span> are filled in green, the edges <span class="math inline">\(E\)</span> are colored red, and the entire graph <span class="math inline">\(G\)</span> is shaded in grey.
+</div>
+</figure>
+</div>
+<p>
+A property of trees is that every tree is a bipartite graph. To prove this, begin with some rooted tree <span class="math inline">\(T\)</span> (if <span class="math inline">\(T\)</span> is not rooted, any arbitrarily selected node to serve as the root may be selected). We will adopt the notation “an <b>odd</b>/<b>even</b> child” to indicate a node that is an odd/even number of levels beneath the root node with respect to the hierarchy, respectively.
+</p>
+<p>
+Define the set <span class="math inline">\(X \subset V\)</span> to be the collection of all such nodes within <span class="math inline">\(V\)</span> that are either even children of the root node or the root node itself; define the set <span class="math inline">\(Y \subset V\)</span> to be the collection of all such nodes within <span class="math inline">\(V\)</span> that are odd children of the root node. From these definitions, we have the first established property of bipartite graphs: <span class="math display">\[X \cap Y = \emptyset \text{ and } X \cup Y = V\]</span>
+</p>
+<p>
+Showing the additional property about edges is a simple task: consider any arbitrary edge <span class="math display">\[e_k=(v_{e_k},v_{e_k}&#39;) \in E \implies v_{e_k}, v_{e_k}&#39; \in V\]</span> Because <span class="math inline">\(T\)</span> is an acyclic graph by definition, taking the convetion that the <span class="math inline">\(0^{th}\)</span> node of <span class="math inline">\(T\)</span> refers to the root node of <span class="math inline">\(T\)</span>, it must be so that either
+<ol>
+<li>
+<span class="math inline">\(\forall\ v_{e_k}\)</span> in the <span class="math inline">\(n^{th}\)</span> hierarchy of <span class="math inline">\(T\)</span> where <span class="math inline">\(n \in \Bbb N_0\)</span>, <span class="math inline">\(v_{e_k}\)</span> is the parent node to <span class="math inline">\(v_{e_k}&#39;\)</span> which lies in the <span class="math inline">\((n+1)^{th}\)</span> hierarchy of <span class="math inline">\(T\)</span>
+</li>
+<li>
+<span class="math inline">\(\forall\ v_{e_k}\)</span> in the <span class="math inline">\((n+1)^{th}\)</span> hierarchy of <span class="math inline">\(T\)</span> where <span class="math inline">\(n \in \Bbb N_0\)</span>, <span class="math inline">\(v_{e_k}\)</span> is the child node to <span class="math inline">\(v_{e_k}&#39;\)</span> which lies in the <span class="math inline">\(n^{th}\)</span> hierarchy of <span class="math inline">\(T\)</span>
+</li>
+</ol>
+For either case with <span class="math inline">\(n \ne 0\)</span>, <span class="math display">\[n \in 2\Bbb N_0 \iff (n + 1) \notin 2 \Bbb N_0\]</span> meaning that if <span class="math inline">\(v_{e_k}\)</span> is in an even hierarchy of <span class="math inline">\(T\)</span>, then <span class="math inline">\(v_{e_k}&#39;\)</span> is in an odd hierarchy of <span class="math inline">\(T\)</span>; the inverse statement holds as well. Hence, <span class="math display">\[v_{e_k} \in X \iff v_{e_k}&#39; \in Y,\ \forall\ n \in \Bbb N^*\]</span> We can extend this to include the case where <span class="math inline">\(n = 0\)</span> by seeing that <span class="math inline">\(v_{e_k}\)</span> is the root node of <span class="math inline">\(T\)</span> (and hence is included in <span class="math inline">\(X\)</span>) and that <span class="math inline">\(v_{e_k}&#39;\)</span> is in an odd hierarchy of <span class="math inline">\(T\)</span>, thus <span class="math inline">\(v_{e_k}&#39; \in Y\)</span>. The proof that <span class="math inline">\(T\)</span> is a bipartite graph follows from here.
+</p>
+<div class="figure">
+<figure>
+<img src="Images/trees_as_bipartite_graphs.png" style="width: 100%;">
+<div class="container">
+An example of the above proof applied to some rooted, binary tree, <span class="math inline">\(T\)</span>. Blue nodes represent either even children of the root node “1” or the root node itself; green nodes represent odd children of the root node “1”. Numbers and lowercase letters denote vertices; capital letters denote edges.
+</div>
+</figure>
+</div>
+</div>
+<div id="formulating-the-objective-function" class="section level2">
+<h2>Formulating the Objective Function</h2>
+<p>
+Let <span class="math inline">\(T=G\)</span> be as before, and let <span class="math display">\[F_p=(\mathscr f_1,\dots,\mathscr f_p:p\leq n \in \Bbb N)\]</span> be a collection of some <span class="math inline">\(p\)</span> vertices in <span class="math inline">\(T\)</span> which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for <span class="math inline">\(T\)</span>. Let <span class="math display">\[W=(w_1,\ldots,w_n:n \in \Bbb N)\]</span> be such that <span class="math inline">\(w_i\)</span> represents the weight for vertex <span class="math inline">\(v_i \in V\)</span>; similarly, define <span class="math display">\[A=(a_1,\ldots,a_m:m \in \Bbb N)\]</span> to be the (tree-metric) distance<sup><a href="#section2">[ii]</a></sup> between adjacent vertices such that, if <span class="math display">\[e_k=(e_{k_1},e_{k_2})\]</span> where <span class="math inline">\(e_{k_1},e_{k_2} \in V\)</span>, then <span class="math display">\[a_k=\lVert e_k\rVert=\lVert e_{k_1} - e_{k_2} \rVert,\forall \ e_k \in E\]</span>
+</p>
 <p>
 Let the distance between any two arbitrary vertices <span class="math inline">\(v_i,v_j \in V\)</span> be defined as the mapping <span class="math inline">\(\delta:(v_i,v_j) \mapsto \delta(v_i,v_j)\)</span>, and then define the mapping <span class="math inline">\(\psi:v_i \mapsto \psi(v_i)\)</span> to be the minimum weighted distance between vertex <span class="math inline">\(v_i\)</span> and any facility within the potential median set; that is, <span class="math display">\[\psi(v_i)=w_i \cdot\min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)\]</span> Finally, let the potential cost of locating a facility at the location <span class="math inline">\(\mathscr f_z\)</span> be defined as the mapping <span class="math inline">\(\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)\)</span>.
 </p>
@@ -181,16 +258,16 @@ Let the distance between any two arbitrary vertices <span class="math inline">\(
 We are now ready to formulate our objective function for any given potential median set: we define the mapping <span class="math inline">\(\Gamma: F_p \mapsto \Gamma(F_p)\)</span> by <span class="math display">\[\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi(v_i)\]</span> to be the objective function for any given potential median set <span class="math inline">\(F_p \subseteq V\)</span>.
 </p>
 <p><br></p>
-<h2>
-Creating the General Linear Programming Problem
-</h2>
+</div>
+<div id="creating-the-general-linear-programming-problem" class="section level2">
+<h2>Creating the General Linear Programming Problem</h2>
 <p>Because we wish to select from any arbitrary potential median set the one for which the objective function is minimized, our goal in solving the p-median problem is to find the median set <span class="math inline">\(\mathscr F_p\)</span> such that <span class="math display">\[\mathscr F_p = \min_{F_p \subseteq V} \Gamma (F_p)\]</span> We will show that, with a few adjustments in terminology and symbology, this <span class="math inline">\(\mathscr F_p\)</span> fits the form of <span class="math inline">\(\eqref{eq1}\)</span>.</p>
-<h3>
-Rearranging the Objective Function
-</h3>
+<div id="rearranging-the-objective-function" class="section level3">
+<h3>Rearranging the Objective Function</h3>
 <p>
 Looking just at <span class="math inline">\(\Gamma (F_p)\)</span> alone, we have that our objective function is equal to <span class="math display">\[\sum_{z=1}^p \gamma (\mathscr f_z) + \sum_{i=1}^n \psi (v_i)\]</span> then, using the fact that <span class="math display">\[\psi (v_i) = w_i \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)\]</span> our objective function can be written as <span class="math display">\[\sum_{z=1}^p \gamma (\mathscr f_z) + \sum_{i=1}^n w_i \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)\]</span>
 </p>
+<p>
 To proceed any further, we need to formulate the two-variable function <span class="math inline">\(\delta\)</span> using known quantities given from the problem. For the first case, suppose the vertex in question is an element of the median set; that is, <span class="math inline">\(v_i \in F_p\)</span>. If we now define the notation <span class="math display">\[\delta (v_i, F_p) = \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)\]</span> then it follows that <span class="math inline">\(\delta (v_i,F_p) = 0\)</span>.
 </p>
 <p>
@@ -203,16 +280,29 @@ Let us denote the <span class="math inline">\(q\)</span> elements <span class="m
 Recall that the set <span class="math inline">\(A\)</span> is defined such that <span class="math inline">\(\forall\ a_k \in A,\ \exists \text{ corresponding } e_k \in E\)</span>. Hence, being careful about our notation, <span class="math inline">\(\forall\ \epsilon_r \in \epsilon \subset E,\ \exists \text{ corresponding } a_{\epsilon_r} \in A_{\epsilon} \subset A\)</span>. Thus, it follows that the subset <span class="math inline">\(A_{\epsilon} \subset A\)</span> represents the distances between each adjacent node within the set <span class="math inline">\(K \in V\)</span>, <span class="math inline">\(\forall\ v_i \in V\)</span> and <span class="math inline">\(\forall\ \mathscr f_z \in F_p\)</span>, hence <span class="math display">\[\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r}= \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)\]</span> leading to <span class="math display">\[\psi (v_i) = w_i \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)\]</span> and thus <span class="math display">\[\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_i \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)\]</span>
 </p>
 <p>
+A quick review of our notation used thus far:
+<ul>
+<li>
+<span class="math inline">\(T=(V,E)\)</span> is our tree <span class="math inline">\(T\)</span> representing our topological location model with vertices <span class="math inline">\(V\)</span> representing demands nodes and edges <span class="math inline">\(E\)</span> representing paths between adjacent demand nodes
+</li>
+<li>
+<span class="math inline">\(F_p \subset V\)</span> is some arbitrary collection of <span class="math inline">\(p\)</span> nodes selected from possible demand nodes
+</ul>
+</p>
+<p>
 <p>Let <span class="math inline">\(\xi\)</span> denote the sum of all <span class="math inline">\(\varepsilon\)</span> for given <span class="math inline">\(v_i,\mathscr f_z\)</span>: <span class="math display">\[\xi (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z) \]</span> Our objective function has now become <span class="math display">\[\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_i \cdot \xi (v_i,\mathscr f_z) \]</span> Finally, because there exists a one-to-one correspondence between <span class="math inline">\(v_i \in V \text{ and } i=1,2,\cdots,n\)</span> as well as between <span class="math inline">\(\mathscr f_z \in F_p \text{ and } z=1,2,\cdots,n\)</span></p>
 <p><br></p>
-<h1>
-References:
-</h1>
+</div>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References:</h1>
 <p id="section1">
 [i] “(PDF) A New Template for Solving p-Median Problems for Trees in Sub-Quadratic Time.” ResearchGate. Accessed April 22, 2019. <cite><a href="https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time" class="uri">https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time</a></cite>.
 </p>
 <p id="section2">
 <p>[ii] For simplicity, by the term “tree-metric distance” here, we are meaning to say that the distance between any two nodes of <span class="math inline">\(T\)</span> is given by the “tree-path” distance described by the topology of the tree itself.</p>
+</div>
 
 
 

@@ -7,14 +7,13 @@ output:
 ---
 
 <style>
-
   h1.title {
     text-align: center;
     font-size: 46px;
-    font-style: bold;
+    font-family: "Baskerville Old Face", Arial, Helvetica, sans-serif;
+    color: black;
     margin-bottom: 25px;
   }
-
 
   .figure {
     position: relative;
@@ -23,20 +22,45 @@ output:
     margin: 25px 0 40px;
   }
 
-
   .container {
     position: relative;
     font-size: 16px;
     font-style: italic;
-    font-family: serif;
+    font-family: Helvetica, "Times New Roman", Times, serif;
     width: 100%;
     margin: 0 0 15px; 
     border-style: double;
     border-width: thick;
     background-color: rgba(255, 204, 153, 0.2);
   }  
-    
-
+  
+  h1 {
+    font-family: "Baskerville Old Face", Arial, Helvetica, sans-serif;
+    color: DarkBlue;
+    font-size: 38px;
+    text-shadow: 0 4px 8px rgba(100,100,250,.2), 0 6px 20px rgba(100, 100, 250, 0.19);
+    margin: 45px 0 5px;
+  }
+  
+  h2, h3 {
+    font-family: Helvetica, "Times New Roman", Times, serif;
+    color: DarkCyan;
+    margin: 40px 0 5px;
+  }
+  
+  body {
+    font-size: 18px;
+    font-family: Helvetica, "Times New Roman", Times, serif;
+  }
+  
+  p {
+    margin: 10px 0 35px;
+  }
+  
+  .MathJax {
+    font-size: 17px !important;
+    font-family: "Times New Roman", Times, serif !important;
+  }
 </style>
 
   
@@ -45,7 +69,7 @@ output:
   
   
   
-# Statement of the Problem
+# The Statement of the Problem
 
 The p-median problem is an application of linear optimization approaches with respect to a graph. Specifically,  it is a facility-location model with the purpose of locating $p$ facilities (hereafter referred to as vertices or nodes) to minimize a constraint equation based on weighted average distances between demand nodes and selection location nodes.
 
@@ -64,7 +88,7 @@ The p-median problem is an application of linear optimization approaches with re
   </ul>
 </p>
 
-<br>
+
 
 
 
@@ -72,13 +96,6 @@ The p-median problem is an application of linear optimization approaches with re
 
 # Rectifying the Issue of Computational Complexity
 Unfortunately, when attempting to perform optimization calculations for this problem using a general graph, the computation time is $\mathcal N \mathcal P$-hard. We can rectify this however by formulating the problem using a mathematical tree.
-
-<p>
-  Given some graph $G=(V,E)$ where
-  $$V=(v_1,\ldots,v_n: n \in \Bbb N)$$
-  is a set of nodes of $G$, and where
-  $$E=(e_1,\ldots,e_m: m \in \Bbb N)$$ is a set of connected nodes of $G$, we call the graph $T=G$ a <b>tree</b> if it is undirected, connected, and contains no cycles. From the procedures detailed in (Benkoczi et al.)<sup><a href="#section1">[i]</a></sup>, if $T$ is both <b>rooted</b> (meaning that there exists a hierarchy within the tree such that one node is considered to be at the ultimate level) and <b>binary</b> (meaning that for any 'parent' node, there are at most two 'child' nodes directly below them; taking "below" to mean "at a lower level with respect to the root hierarchy", 'parent' to mean "superior to the child with respect to the hierarchy", and 'child' to mean "inferior to the parent with respect to the hierarchy"), then an $O(nlog^{p+2}n)$ algorithm exists; thus, a solution to the p-median problem on $T$ can be computed in polynomial time.
-</p>
 
 <div class="figure">
   <figure>
@@ -89,6 +106,13 @@ Unfortunately, when attempting to perform optimization calculations for this pro
 </div>
 
 <p>
+  Given some graph $G=(V,E)$ where
+  $$V=(v_1,\ldots,v_n: n \in \Bbb N)$$
+  is a set of nodes of $G$, and where
+  $$E=(e_1,\ldots,e_m: m \in \Bbb N)$$ is a set of connected nodes of $G$, we call the graph $T=G$ a <b>tree</b> if it is undirected, connected, and contains no cycles. From the procedures detailed in (Benkoczi et al.)<sup><a href="#section1">[i]</a></sup>, if $T$ is both <b>rooted</b> (meaning that there exists a hierarchy within the tree such that one node is considered to be at the ultimate level) and <b>binary</b> (meaning that for any 'parent' node, there are at most two 'child' nodes directly below them; taking "below" to mean "at a lower level with respect to the root hierarchy", 'parent' to mean "superior to the child with respect to the hierarchy", and 'child' to mean "inferior to the parent with respect to the hierarchy"), then an $O(nlog^{p+2}n)$ algorithm exists; thus, a solution to the p-median problem on $T$ can be computed in polynomial time.
+</p>
+
+<p>
   If $T$ is not rooted, then it can be made to be so by arbitrarily selecting a vertex to designate as its root. If $T$ is not binary, then $T$ may be made to be binary by adding a linear number of vertices and edges to that set. Because it follows that any object that is composed of a linear function of objects that can be solved in polynomial time is itself solvable in polynomial time, then it follows that a tree $T$ which is neither rooted nor binary can also be solved in polynomial time.
 </p>
 
@@ -96,7 +120,7 @@ Unfortunately, when attempting to perform optimization calculations for this pro
   Thus, because the graph $G$ for the p-median problem can be formulated as the tree $T=G$, it follows that we can calculate a solution for the p-median problem in polynomial time.
 </p>
 
-<br>
+
 
 
 
@@ -119,22 +143,34 @@ Unfortunately, when attempting to perform optimization calculations for this pro
   We will begin by defining the terminology of bipartite graphs to make use of in subsequent calculations. Next, we will formulate the the total cost as a function of any given collection of $p$ vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these procedures into three subsections.
 </p>
 
-<br>
+
 
 
 
 
 ## Bipartite Graphs
-At this point, we will define the concept of bipartite graphs to make use of later. Suppose $G=(V,E)$ is a graph;; that is, $G$ is an ordered pair $G=(V,E)$ comprised of $V$, a set of nodes or "vertices", as well as $E$, a set of edges or "links". For bipartite graphs, the only (fundamental) change is that we now divide the vertex set $V$ into two disjoint and independent subsets of vertices; that is,
-$$X,Y : X \cap Y = \emptyset \text{ and } X \cup Y = V $$
-Furthermore, an additional restriction is placed upon each edge element: if $e_k \in E$ is any edge of $G$, then $e_k$ connects an element in $X$ to an element in $Y$; that is,
-$$\text{if } e_k = (v_{e_k},v_{e_k}') \in E \text{, then } v_{e_k} \in X \iff v_{e_k}' \in Y$$
 
 <div class="figure">
   <figure>
   <img src="D:\`Grad_Research\Rudy_RA_Work\Bike-Share\Images\bipartite_graphs.png" style="width: 100%;">
   <div class="container">
   An example of a bipartite graph, $G=(V,E)$. The vertices $V$ are outlined in purple, the vertices of $X \subset V$ are filled in blue, the vertices $Y \subset V$ are filled in green, the edges $E$ are colored red, and the entire graph $G$ is shaded in grey.
+  </div>
+  </figure>
+</div>
+
+<p>
+  At this point, we will define the concept of bipartite graphs to make use of later. Suppose $G=(V,E)$ is a graph;; that is, $G$ is an ordered pair $G=(V,E)$ comprised of $V$, a set of nodes or "vertices", as well as $E$, a set of edges or "links". For bipartite graphs, the only (fundamental) change is that we now divide the vertex set $V$ into two disjoint and independent subsets of vertices; that is,
+  $$X,Y : X \cap Y = \emptyset \text{ and } X \cup Y = V $$
+  Furthermore, an additional restriction is placed upon each edge element: if $e_k \in E$ is any edge of $G$, then $e_k$ connects an element in $X$ to an element in $Y$; that is,
+  $$\text{if } e_k = (v_{e_k},v_{e_k}') \in E \text{, then } v_{e_k} \in X \iff v_{e_k}' \in Y$$
+</p>
+
+<div class="figure">
+  <figure>
+  <img src="D:\`Grad_Research\Rudy_RA_Work\Bike-Share\Images\trees_as_bipartite_graphs.png" style="width: 100%;">
+  <div class="container">
+  An example of the above proof applied to some rooted, binary tree, $T$. Blue nodes represent either even children of the root node "1" or the root node itself; green nodes represent odd children of the root node "1". Numbers and lowercase letters denote vertices; capital letters denote edges.
   </div>
   </figure>
 </div>
@@ -162,15 +198,6 @@ $$\text{if } e_k = (v_{e_k},v_{e_k}') \in E \text{, then } v_{e_k} \in X \iff v_
   We can extend this to include the case where $n = 0$ by seeing that $v_{e_k}$ is the root node of $T$ (and hence is included in $X$) and that $v_{e_k}'$ is in an odd hierarchy of $T$, thus $v_{e_k}' \in Y$. The proof that $T$ is a bipartite graph follows from here.
 </p>
 
-<div class="figure">
-  <figure>
-  <img src="D:\`Grad_Research\Rudy_RA_Work\Bike-Share\Images\trees_as_bipartite_graphs.png" style="width: 100%;">
-  <div class="container">
-  An example of the above proof applied to some rooted, binary tree, $T$. Blue nodes represent either even children of the root node "1" or the root node itself; green nodes represent odd children of the root node "1". Numbers and lowercase letters denote vertices; capital letters denote edges.
-  </div>
-  </figure>
-</div>
-
 
 
 
@@ -181,25 +208,25 @@ $$\text{if } e_k = (v_{e_k},v_{e_k}') \in E \text{, then } v_{e_k} \in X \iff v_
 
 <p>
   Let $T=G$ be as before, and let
-  $$F_p=(\mathscr f_1,\dots,\mathscr f_p:p\leq n \in \Bbb N)$$ be a collection of some $p$ vertices in $T$ which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for $T$. Let
-  $$W=(w_1,\ldots,w_n:n \in \Bbb N)$$ be such that $w_i$ represents the weight for vertex $v_i \in V$; similarly, define
-  $$A=(a_1,\ldots,a_m:m \in \Bbb N)$$ to be the (tree-metric) distance<sup><a href="#section2">[ii]</a></sup> between adjacent vertices such that, if
-  $$e_k=(e_{k_1},e_{k_2})$$ where $e_{k_1},e_{k_2} \in V$, then
-  $$a_k=\lVert e_k\rVert=\lVert e_{k_1} - e_{k_2} \rVert,\forall \ e_k \in E$$
+  $$F_p=(\mathscr f_1, \mathscr f_2, \dots,\mathscr f_p:p\leq n \in \Bbb N)$$ be a collection of some $p$ vertices in $T$ which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for $T$. Let
+  $$W_V = (w_{v_1}, w_{v_2}, \ldots,w_{v_n} : n \in \Bbb N)$$ be such that $w_{v_i}$ represents the demand weight for vertex $v_i \in V$; similarly, define
+  $$A_E = (a_{e_1}, a_{e_2}, \ldots, a_{e_m} : m \in \Bbb N)$$ to be the (tree-metric) distance<sup><a href="#section2">[ii]</a></sup> between adjacent vertices such that, if
+  $$e_k=(v_{e_k},v_{e_k}')$$ where $v_{e_k},v_{e_k}' \in V$, then
+  $$a_{e_k} = \lVert e_k\rVert=\lVert v_{e_k} - v_{e_k}' \rVert,\forall \ e_k \in E$$
 </p>
 
 <p>
-  Let the distance between any two arbitrary vertices $v_i,v_j \in V$ be defined as the mapping $\delta:(v_i,v_j) \mapsto \delta(v_i,v_j)$, and then define the mapping $\psi:v_i \mapsto \psi(v_i)$ to be the minimum weighted distance between vertex $v_i$ and any facility within the potential median set; that is,
-  $$\psi(v_i)=w_i \cdot\min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ Finally, let the potential cost of locating a facility at the location $\mathscr f_z$ be defined as the mapping $\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)$.
+  Let the distance between any two arbitrary vertices $v_i,v_j \in V$ be defined as the mapping $\delta:(v_i,v_j) \mapsto \delta(v_i,v_j)$, and then define the mapping $\psi_{F_p} : v_i \mapsto \psi_{F_p} (v_i)$ to be the minimum weighted distance between vertex $v_i$ and any facility within the potential median set; that is,
+  $$\psi_{F_p} (v_i) = v_{w_i} \cdot\min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ For brevity, we will adopt the notation $\delta (v_i,F_p)$ to represent $\min_{\mathscr f_z \in F_p} \delta (v_i, \mathscr f_z)$. Lastly, let the potential cost of locating a facility at the location $\mathscr f_z$ be defined as the mapping $\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)$.
 </p>
 
 <p>
   We are now ready to formulate our objective function for any given potential median set: we define the mapping $\Gamma: F_p \mapsto \Gamma(F_p)$ by
-  $$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi(v_i)$$
+  $$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i)$$
   to be the objective function for any given potential median set $F_p \subseteq V$.
 </p>
 
-<br>
+
 
 
 
@@ -215,42 +242,60 @@ We will show that, with a few adjustments in terminology and symbology, this $\m
 
 ### Rearranging the Objective Function
 <p>
-  Looking just at $\Gamma (F_p)$ alone, we have that our objective function is equal to 
-  $$\sum_{z=1}^p \gamma (\mathscr f_z) + \sum_{i=1}^n \psi (v_i)$$ then, using the fact that 
-  $$\psi (v_i) = w_i \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ our objective function can be written as
-  $$\sum_{z=1}^p \gamma (\mathscr f_z) + \sum_{i=1}^n w_i \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$
+  Let us consider just $\Gamma (F_p)$ alone: we have that our objective function is given by
+  $$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i)$$ We will now proceed by back-substituting our notation and mappings defined above in order to formulate the objective function in terms of given quantities. Because our next logical step is to substitute $$\psi_{F_p} (v_i) \to v_{w_i} \cdot \delta (v_i,F_p)$$ followed by $$\delta (v_i,F_p) \to \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ we must move to formulate the minimum distance between any vertex in $V$ and any facility in the potential median set in terms of given quantities.
 </p>
 
 <p>
-  To proceed any further, we need to formulate the two-variable function $\delta$ using known quantities given from the problem. For the first case, suppose the vertex in question is an element of the median set; that is, $v_i \in F_p$. If we now define the notation $$\delta (v_i, F_p) = \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ 
-then it follows that $\delta (v_i,F_p) = 0$. 
+  Two possibilities arise: for the first case, suppose the vertex in question is an element of the median set; that is, $v_i \in F_p$. It is clear that this immediately implies $$\delta (v_i,F_p) = 0$$
 </p>
 
 <p>
-  For all other cases, we suppose that $v_i \notin F_p$. Then, $\forall\ \mathscr f_z \in F_p$ because $T$ is connected, there exists some set $K \subset V$ such that every element $k \neq v_i \text{ and } k \neq \mathscr f_z$ in $K$ lies on a path connecting $v_i$ to $\mathscr f_z$; furthermore, because $T$ is acyclic, this path is <il>the</il> unique path connecting $v_i$ and $\mathscr f_z$. Before proceeding, let the mapping $\phi: (v_i, \mathscr f_z) \mapsto K$ formally define $K$ for a given $v_i,\mathscr f_z$ when the vertex and facility in question are ambiguous.
+  For all other cases, we suppose that $v_i \notin F_p$. Then, $\forall\ \mathscr f_z \in F_p$, because $T$ is connected, there exists some set $K \subset V$ such that every element $v_{k_r} \neq v_i \text{ and } v_{k_r} \neq \mathscr f_z$ in $K$ lies on a path connecting $v_i$ to $\mathscr f_z$; furthermore, because $T$ is acyclic, this path is <il>the</il> unique path connecting $v_i$ and $\mathscr f_z$. Before proceeding, let the mapping $\phi: (v_i, \mathscr f_z) \mapsto K$ formally define $K$ for a given $(v_i,\mathscr f_z)$ when the vertex and facility in question are ambiguous.
 </p>
 
 <p>
-  Let us denote the $q$ elements $k_q \in K$ to be such that 
-  $$k_q=\mathscr f_z \text{ and } \forall\ k_r\ |\ r = 1,2,\ldots,q-1,\  \exists\ e_{k_r} \in E\ |\ e_{k_r} = (k_r,k_{r+1})$$
-  Hence, each subset of vertices $K$ of $V$ defined in the above way induces a subset of edges $(e_{k_1},e_{k_2},\ldots,e_{k_{q-1}}) \subset E$. As before, we define the mapping $\Phi: K \mapsto \epsilon$ to formally define $\epsilon$ for a given $K$ for a given $v_i,\mathscr f_z$ by 
+  Let us denote the $q$ elements $v_{k_r} \in K$ to be such that 
+  $$v_{k_q} = \mathscr f_z \text{ and } \forall\ v_{k_r}\ |\ r = 1,2,\ldots,q-1,\  \exists\ e_{v_{k_r}} \in E\ |\ e_{v_{k_r}} = (v_{k_r},v_{k_{{r+1}}})$$
+  Hence, each subset of vertices $K$ of $V$ defined in the above way induces a subset of edges $\epsilon =(e_{v_{k_1}},e_{v_{k_2}},\ldots,e_{v_{k_{q-1}}}) \subset E$. As before, we define the mapping $\Phi: K \mapsto \epsilon$ to formally define $\epsilon$ for a given $K$ for a given $(v_i,\mathscr f_z)$ by 
   $$\epsilon = \Phi (K) = (\Phi \circ \phi)(v_i,\mathscr f_z)$$
   which is composed of $q-1$ elements 
   $$\epsilon_r = \Phi_r (k) = (\Phi \circ \phi)_r (v_i,\mathscr f_z)$$
   We define one final mapping before proceeding: $\varepsilon: (v_i,\mathscr f_z,r) \mapsto \epsilon$ as 
   $$\varepsilon_r (v_i,\mathscr f_z) = (\Phi \circ \phi)_r (v_i,\mathscr f_z)= \epsilon_r$$
+  whenever $(v_i,\mathscr f_z)$ is arbitrary and unambiguous.
 </p>
 
 <p>
-  Recall that the set $A$ is defined such that $\forall\ a_k \in A,\ \exists \text{ corresponding } e_k \in E$. Hence, being careful about our notation, $\forall\ \epsilon_r \in \epsilon \subset E,\ \exists \text{ corresponding } a_{\epsilon_r} \in A_{\epsilon} \subset A$. Thus, it follows that the subset $A_{\epsilon} \subset A$ represents the distances between each adjacent node within the set $K \in V$, $\forall\ v_i \in V$ and $\forall\ \mathscr f_z \in F_p$, hence $$\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r}= \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)$$ leading to $$\psi (v_i) = w_i \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)$$ and thus $$\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_i \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z)$$
+  Recall that the set $A$ is defined such that $\forall\ a_{e_k} \in A_E,\ \exists \text{ corresponding } e_k \in E$. Hence, being careful about our notation, $\forall\ \epsilon_r \in \epsilon \subset E,\ \exists \text{ corresponding } a_{\epsilon_r} \in A_{\epsilon} \subset A_E$. Thus, it follows that the subset $A_{\epsilon} \subset A_E$ represents the distances between each adjacent node within the set $K \in V$, $\forall\ v_i \in V$ and $\forall\ \mathscr f_z \in F_p$
 </p>
 
+<p>
+  Hence, the distance between arbitrary vertex $v_i \in V$ and arbitrary potential facility location $\mathscr f_z \in F_p$ is
+  $$\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r} = \sum_{r=1}^{q-1} \lVert \varepsilon_r (v_i,\mathscr f_z) \rVert = \sum_{r=1}^{q-1} \lVert \epsilon_r \rVert = \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}'\rVert$$ leading to 
+  $$\psi_{F_p} (v_i) = v_{w_i} \cdot \delta (v_i,F_p) = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z) = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}'\rVert = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}'\rVert$$ 
+  Satisfied with our notation, we will from here on out write $\lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}'\rVert$ as $a_{\varepsilon_r (v_i,\mathscr f_z)}$ and take the notational convention that $a_{\epsilon_r} \gt 0$.Thus,
+  $$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}$$
+</p>
+  
+<p>
+  To proceed further, let us expand the summation for $\mathscr f_z \in F_p$; additionally, we will denote $f_z$ to be the $\mathscr f_z \in F_p$ which minimizes the sum of the distances :
+  $$\Gamma(F_p) = [\gamma(\mathscr f_1) + \gamma(\mathscr f_2) + \ldots + \gamma(\mathscr f_p)] + [ \sum_{v_i \in V} w_{v_i} \cdot \min_{\mathscr f_z \in F_p} [a_{\varepsilon_1 (v_i,\mathscr f_z)} + a_{\varepsilon_1 (v_2,\mathscr f_z)} + \ldots + a_{\varepsilon_{q-1} (v_i,\mathscr f_z)}] ]$$ $$=[\gamma(\mathscr f_1) + \gamma(\mathscr f_2) + \ldots + \gamma(\mathscr f_p)] + [ \sum_{v_i \in V} w_{v_i} \cdot [a_{\varepsilon_1 (v_i,f_z)} + a_{\varepsilon_1 (v_2,f_z)} + \ldots + a_{\varepsilon_{q-1} (v_i,f_z)}] ]$$
+</p>
 
 <p>
   A quick review of our notation used thus far:
-  <ul>
-  <li> $T=(V,E)$ is our tree $T$ representing our topological location model with vertices $V$ representing demands nodes and edges $E$ representing paths between adjacent demand nodes </li>
-  <li> $F_p \subset V$ is some arbitrary collection of $p$ nodes selected from possible demand nodes 
+  <ul style="line-height: 1.7;">
+  <li> $G=(V,E)$ is the p-median problem formulated as a graph with vertices $V$ representing demands nodes and edges $E$ representing paths between adjacent demand nodes </li>
+  <li> $T=G$ is the tree $T$ representing our topological location model </li>
+  <li> $W_V$ is the set of weights of $V$ where $\forall\ v_i \in V,\ \exists\ w_{v_i} \in W_V$ representing the weight of demand at node $v_i$ </li>
+  <li> $A_E$ is the set of norms of $E$ (with respect to the tree-metric) where $\forall\ e_k \in E,\ \exists\ a_{e_k} \in A_E$ representing the distance between the adjacent nodes $v_{e_k}$ and $v_{e_k}'$ attached to edge $e_k$ </li>
+  <li> $F_p \subset V$ is some arbitrary collection of $p$ nodes selected from possible demand nodes to allocate as potential facility locations; we call this the potential median set </li>
+  <li> $\delta (v_i,v_j)$ represents the distance between any two (possibly non-adjacent) arbitrary vertices $v_i,v_j \in V$ <b>as a function of any two vertices in $V$</b>; additionally, $\delta (v_i,F_p)$ is defined to be the minimum distance between vertex $v_i$ and any facility within the potential median set </li>
+  <li> $\psi_{F_p} (v_i) = v_{w_i} \cdot \delta (v_i,F_p)$ represents the minimum weighted distance between vertex $v_i$ and any facility within the potential median set <b>as a function of potential median sets</b></li>
+  <li> $\gamma (f_z)$ represents the potential cost of locating a facility at the location $f_z$ in the potential median set <b>as a function of facilities within a given potential median set</b></li>
+  <li> $\Gamma (F_p)$ represents the total cost incurred given any potential median set <b>as a function of potential median sets</b></li>
+  <li> $\mathscr F_p$ is the set of $p$ nodes selected from possible demand nodes that represents the minimized total cost incurred given a potential median set; it is the <b>minimal p-median set</b>: the solution to the p-median problem </li>
   </ul>
 </p>
 
@@ -259,11 +304,11 @@ then it follows that $\delta (v_i,F_p) = 0$.
 
 <p>
   Let $\xi$ denote the sum of all $\varepsilon$ for given $v_i,\mathscr f_z$: $$\xi (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z) $$
-  Our objective function has now become $$\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_i \cdot \xi (v_i,\mathscr f_z) $$
+  Our objective function has now become $$\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} v_{w_i} \cdot \xi (v_i,\mathscr f_z) $$
   Finally, because there exists a one-to-one correspondence between $v_i \in V \text{ and } i=1,2,\cdots,n$ as well as between $\mathscr f_z \in F_p \text{ and } z=1,2,\cdots,n$
 
 
-<br>
+
 
 
 

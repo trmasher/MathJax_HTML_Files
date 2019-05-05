@@ -1,0 +1,123 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+
+---
+title: The p-median Problem
+output:
+  html_document:
+    mathjax: local
+    self_contained: false
+---
+
+<style>
+  h1.title {
+    text-align: center;
+    font-size: 46px;
+    font-family: "Baskerville Old Face", Arial, Helvetica, sans-serif;
+    color: black;
+    margin-bottom: 25px;
+  }
+
+  .figure {
+    position: relative;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+    margin: 25px 0 40px;
+  }
+
+  .container {
+    position: relative;
+    font-size: 16px;
+    font-style: italic;
+    font-family: Helvetica, "Times New Roman", Times, serif;
+    width: 100%;
+    margin: 0 0 15px; 
+    border-style: double;
+    border-width: thick;
+    background-color: rgba(255, 204, 153, 0.2);
+  }  
+  
+  h1 {
+    font-family: "Baskerville Old Face", Arial, Helvetica, sans-serif;
+    color: DarkBlue;
+    font-size: 38px;
+    text-shadow: 0 4px 8px rgba(100,100,250,.2), 0 6px 20px rgba(100, 100, 250, 0.19);
+    margin: 45px 0 5px;
+  }
+  
+  h2, h3 {
+    font-family: Helvetica, "Times New Roman", Times, serif;
+    color: DarkCyan;
+    margin: 40px 0 5px;
+  }
+  
+  body {
+    font-size: 18px;
+    font-family: Helvetica, "Times New Roman", Times, serif;
+  }
+  
+  p {
+    margin: 10px 0 35px;
+  }
+  
+  .MathJax {
+    font-size: 17px !important;
+    font-family: "Times New Roman", Times, serif !important;
+  }
+</style>
+
+
+
+
+## Bipartite Graphs
+
+<div class="figure">
+  <figure>
+  <img src="D:\`Grad_Research\Rudy_RA_Work\Bike-Share\Images\bipartite_graphs.png" style="width: 100%;">
+  <div class="container">
+  An example of a bipartite graph, $G=(V,E)$. The vertices $V$ are outlined in purple, the vertices of $X \subset V$ are filled in blue, the vertices $Y \subset V$ are filled in green, the edges $E$ are colored red, and the entire graph $G$ is shaded in grey.
+  </div>
+  </figure>
+</div>
+
+<p>
+  At this point, we will define the concept of bipartite graphs to make use of later. Suppose $G=(V,E)$ is a graph;; that is, $G$ is an ordered pair $G=(V,E)$ comprised of $V$, a set of nodes or "vertices", as well as $E$, a set of edges or "links". For bipartite graphs, the only (fundamental) change is that we now divide the vertex set $V$ into two disjoint and independent subsets of vertices; that is,
+  $$X,Y : X \cap Y = \emptyset \text{ and } X \cup Y = V $$
+  Furthermore, an additional restriction is placed upon each edge element: if $e_k \in E$ is any edge of $G$, then $e_k$ connects an element in $X$ to an element in $Y$; that is,
+  $$\text{if } e_k = (v_{e_k},v_{e_k}') \in E \text{, then } v_{e_k} \in X \iff v_{e_k}' \in Y$$
+</p>
+
+<div class="figure">
+  <figure>
+  <img src="D:\`Grad_Research\Rudy_RA_Work\Bike-Share\Images\trees_as_bipartite_graphs.png" style="width: 100%;">
+  <div class="container">
+  An example of the above proof applied to some rooted, binary tree, $T$. Blue nodes represent either even children of the root node "1" or the root node itself; green nodes represent odd children of the root node "1". Numbers and lowercase letters denote vertices; capital letters denote edges.
+  </div>
+  </figure>
+</div>
+
+<p>
+  A property of trees is that every tree is a bipartite graph. To prove this, begin with some rooted tree $T$ (if $T$ is not rooted, any arbitrarily selected node to serve as the root may be selected). We will adopt the notation "an <b>odd</b>/<b>even</b> child" to indicate a node that is an odd/even number of levels beneath the root node with respect to the hierarchy, respectively. 
+</p>
+<p>
+  Define the set $X \subset V$ to be the collection of all such nodes within $V$ that are either even children of the root node or the root node itself; define the set $Y \subset V$ to be the collection of all such nodes within $V$ that are odd children of the root node. From these definitions, we have the first established property of bipartite graphs: 
+  $$X \cap Y = \emptyset \text{ and } X \cup Y = V$$
+</p>
+
+<p>
+  Showing the additional property about edges is a simple task: consider any arbitrary edge 
+  $$e_k=(v_{e_k},v_{e_k}') \in E \implies v_{e_k}, v_{e_k}' \in V$$ 
+  Because $T$ is an acyclic graph by definition, taking the convetion that the $0^{th}$ node of $T$ refers to the root node of $T$, it must be so that either
+  <ol>
+  <li>$\forall\ v_{e_k}$ in the $n^{th}$ hierarchy of $T$ where $n \in \Bbb N_0$, $v_{e_k}$ is the parent node to $v_{e_k}'$ which lies in the $(n+1)^{th}$ hierarchy of $T$</li>
+  <li>$\forall\ v_{e_k}$ in the $(n+1)^{th}$ hierarchy of $T$ where $n \in \Bbb N_0$, $v_{e_k}$ is the child node to $v_{e_k}'$ which lies in the $n^{th}$ hierarchy of $T$</li>
+  </ol>
+  For either case with $n \ne 0$, 
+  $$n \in 2\Bbb N_0 \iff (n + 1) \notin 2 \Bbb N_0$$
+  meaning that if $v_{e_k}$ is in an even hierarchy of $T$, then $v_{e_k}'$ is in an odd hierarchy of $T$; the inverse statement holds as well. Hence,
+  $$v_{e_k} \in X \iff v_{e_k}' \in Y,\ \forall\ n \in \Bbb N^*$$
+  We can extend this to include the case where $n = 0$ by seeing that $v_{e_k}$ is the root node of $T$ (and hence is included in $X$) and that $v_{e_k}'$ is in an odd hierarchy of $T$, thus $v_{e_k}' \in Y$. The proof that $T$ is a bipartite graph follows from here.
+</p>

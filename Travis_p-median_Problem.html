@@ -180,7 +180,9 @@ $(document).ready(function () {
 </style>
 <div id="the-statement-of-the-problem" class="section level1">
 <h1>The Statement of the Problem</h1>
-<p>The p-median problem is an application of linear optimization approaches with respect to a graph. Specifically, it is a facility-location model with the purpose of locating <span class="math inline">\(p\)</span> facilities (hereafter referred to as vertices or nodes) to minimize a constraint equation based on weighted average distances between demand nodes and selection location nodes.</p>
+<p>
+The p-median problem is an application of linear optimization approaches with respect to a graph. Specifically, it is a facility-location model with the purpose of locating <span class="math inline">\(p\)</span> facilities (hereafter referred to as vertices or nodes) to minimize a constraint equation based on weighted average distances between demand nodes and selection location nodes.
+</p>
 <p>
 Stated more formally, given some graph <span class="math inline">\(G=(V,E)\)</span> where <span class="math display">\[V=(v_1,\ldots,v_n: n \in \Bbb N)\]</span> is a set of nodes of <span class="math inline">\(G\)</span>, each representing a demand weight, and where <span class="math display">\[E=(e_1,\ldots,e_m: m \in \Bbb N)\]</span> is a set of connected nodes of <span class="math inline">\(G\)</span>, the p-median problem seeks to find any number <span class="math inline">\(p\)</span> vertices such that the sum of the weighted distances from each vertex in <span class="math inline">\(G\)</span> to the closest facility is minimized. The lengths between each vertex and each facility is calculated by taking the absolute value of each member of <span class="math inline">\(E\)</span> that represents a successive path connection of nodes in between the two and computing their sum.
 </p>
@@ -201,7 +203,9 @@ Finding a Solution to a Linear Programming Problem
 </div>
 <div id="rectifying-the-issue-of-computational-complexity" class="section level1">
 <h1>Rectifying the Issue of Computational Complexity</h1>
-<p>Unfortunately, when attempting to perform optimization calculations for this problem using a general graph, the computation time is <span class="math inline">\(\mathcal N \mathcal P\)</span>-hard. We can rectify this however by formulating the problem using a mathematical tree.</p>
+<p>
+Unfortunately, when attempting to perform optimization calculations for this problem using a general graph, the computation time is <span class="math inline">\(\mathcal N \mathcal P\)</span>-hard. We can rectify this however by formulating the problem using a mathematical tree.
+</p>
 <div class="figure">
 <figure>
 <img src="Images/rooted_binary_tree.png">
@@ -226,56 +230,17 @@ Now that we have established that we can find a solution to the p-median problem
 <blockquote>
 Minimize <span class="math display">\[f(\mathbf X) = \sum_{i=1}^n c_i x_i \tag{1}\label{eq1}\]</span> subject to <span class="math display">\[\sum_{i=1}^n a_{ij} x_i = b_j \forall \ j=1,2,\ldots,m \tag{2}\label{eq2}\]</span> and <span class="math display">\[x_i\ge 0, \forall \ i=1,2,\ldots,n \tag{3}\label{eq3}\]</span> where <span class="math display">\[a_{ij},c_i \in \Bbb R \text{, } b_j \ge 0 \text{, and } m\lt n \tag{4}\label{eq4}\]</span>
 </blockquote>
-<p>
-We will begin by defining the terminology of bipartite graphs to make use of in subsequent calculations. Next, we will formulate the the total cost as a function of any given collection of <span class="math inline">\(p\)</span> vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these procedures into three subsections.
-</p>
-<div id="bipartite-graphs" class="section level2">
-<h2>Bipartite Graphs</h2>
-<div class="figure">
-<figure>
-<img src="Images/bipartite_graphs.png" style="width: 100%;">
-<div class="container">
-An example of a bipartite graph, <span class="math inline">\(G=(V,E)\)</span>. The vertices <span class="math inline">\(V\)</span> are outlined in purple, the vertices of <span class="math inline">\(X \subset V\)</span> are filled in blue, the vertices <span class="math inline">\(Y \subset V\)</span> are filled in green, the edges <span class="math inline">\(E\)</span> are colored red, and the entire graph <span class="math inline">\(G\)</span> is shaded in grey.
-</div>
-</figure>
-</div>
-<p>
-At this point, we will define the concept of bipartite graphs to make use of later. Suppose <span class="math inline">\(G=(V,E)\)</span> is a graph;; that is, <span class="math inline">\(G\)</span> is an ordered pair <span class="math inline">\(G=(V,E)\)</span> comprised of <span class="math inline">\(V\)</span>, a set of nodes or “vertices”, as well as <span class="math inline">\(E\)</span>, a set of edges or “links”. For bipartite graphs, the only (fundamental) change is that we now divide the vertex set <span class="math inline">\(V\)</span> into two disjoint and independent subsets of vertices; that is, <span class="math display">\[X,Y : X \cap Y = \emptyset \text{ and } X \cup Y = V \]</span> Furthermore, an additional restriction is placed upon each edge element: if <span class="math inline">\(e_k \in E\)</span> is any edge of <span class="math inline">\(G\)</span>, then <span class="math inline">\(e_k\)</span> connects an element in <span class="math inline">\(X\)</span> to an element in <span class="math inline">\(Y\)</span>; that is, <span class="math display">\[\text{if } e_k = (v_{e_k},v_{e_k}&#39;) \in E \text{, then } v_{e_k} \in X \iff v_{e_k}&#39; \in Y\]</span>
-</p>
-<div class="figure">
-<figure>
-<img src="Images/trees_as_bipartite_graphs.png" style="width: 100%;">
-<div class="container">
-An example of the above proof applied to some rooted, binary tree, <span class="math inline">\(T\)</span>. Blue nodes represent either even children of the root node “1” or the root node itself; green nodes represent odd children of the root node “1”. Numbers and lowercase letters denote vertices; capital letters denote edges.
-</div>
-</figure>
-</div>
-<p>
-A property of trees is that every tree is a bipartite graph. To prove this, begin with some rooted tree <span class="math inline">\(T\)</span> (if <span class="math inline">\(T\)</span> is not rooted, any arbitrarily selected node to serve as the root may be selected). We will adopt the notation “an <b>odd</b>/<b>even</b> child” to indicate a node that is an odd/even number of levels beneath the root node with respect to the hierarchy, respectively.
 </p>
 <p>
-Define the set <span class="math inline">\(X \subset V\)</span> to be the collection of all such nodes within <span class="math inline">\(V\)</span> that are either even children of the root node or the root node itself; define the set <span class="math inline">\(Y \subset V\)</span> to be the collection of all such nodes within <span class="math inline">\(V\)</span> that are odd children of the root node. From these definitions, we have the first established property of bipartite graphs: <span class="math display">\[X \cap Y = \emptyset \text{ and } X \cup Y = V\]</span>
+We will first formulate the total cost as a function of any given collection of <span class="math inline">\(p\)</span> vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these procedures into three subsections.
 </p>
-<p>
-Showing the additional property about edges is a simple task: consider any arbitrary edge <span class="math display">\[e_k=(v_{e_k},v_{e_k}&#39;) \in E \implies v_{e_k}, v_{e_k}&#39; \in V\]</span> Because <span class="math inline">\(T\)</span> is an acyclic graph by definition, taking the convetion that the <span class="math inline">\(0^{th}\)</span> node of <span class="math inline">\(T\)</span> refers to the root node of <span class="math inline">\(T\)</span>, it must be so that either
-<ol>
-<li>
-<span class="math inline">\(\forall\ v_{e_k}\)</span> in the <span class="math inline">\(n^{th}\)</span> hierarchy of <span class="math inline">\(T\)</span> where <span class="math inline">\(n \in \Bbb N_0\)</span>, <span class="math inline">\(v_{e_k}\)</span> is the parent node to <span class="math inline">\(v_{e_k}&#39;\)</span> which lies in the <span class="math inline">\((n+1)^{th}\)</span> hierarchy of <span class="math inline">\(T\)</span>
-</li>
-<li>
-<span class="math inline">\(\forall\ v_{e_k}\)</span> in the <span class="math inline">\((n+1)^{th}\)</span> hierarchy of <span class="math inline">\(T\)</span> where <span class="math inline">\(n \in \Bbb N_0\)</span>, <span class="math inline">\(v_{e_k}\)</span> is the child node to <span class="math inline">\(v_{e_k}&#39;\)</span> which lies in the <span class="math inline">\(n^{th}\)</span> hierarchy of <span class="math inline">\(T\)</span>
-</li>
-</ol>
-For either case with <span class="math inline">\(n \ne 0\)</span>, <span class="math display">\[n \in 2\Bbb N_0 \iff (n + 1) \notin 2 \Bbb N_0\]</span> meaning that if <span class="math inline">\(v_{e_k}\)</span> is in an even hierarchy of <span class="math inline">\(T\)</span>, then <span class="math inline">\(v_{e_k}&#39;\)</span> is in an odd hierarchy of <span class="math inline">\(T\)</span>; the inverse statement holds as well. Hence, <span class="math display">\[v_{e_k} \in X \iff v_{e_k}&#39; \in Y,\ \forall\ n \in \Bbb N^*\]</span> We can extend this to include the case where <span class="math inline">\(n = 0\)</span> by seeing that <span class="math inline">\(v_{e_k}\)</span> is the root node of <span class="math inline">\(T\)</span> (and hence is included in <span class="math inline">\(X\)</span>) and that <span class="math inline">\(v_{e_k}&#39;\)</span> is in an odd hierarchy of <span class="math inline">\(T\)</span>, thus <span class="math inline">\(v_{e_k}&#39; \in Y\)</span>. The proof that <span class="math inline">\(T\)</span> is a bipartite graph follows from here.
-</p>
-</div>
 <div id="formulating-the-objective-function" class="section level2">
 <h2>Formulating the Objective Function</h2>
 <p>
 Let <span class="math inline">\(T=G\)</span> be as before, and let <span class="math display">\[F_p=(\mathscr f_1, \mathscr f_2, \dots,\mathscr f_p:p\leq n \in \Bbb N)\]</span> be a collection of some <span class="math inline">\(p\)</span> vertices in <span class="math inline">\(T\)</span> which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for <span class="math inline">\(T\)</span>. Let <span class="math display">\[W_V = (w_{v_1}, w_{v_2}, \ldots,w_{v_n} : n \in \Bbb N)\]</span> be such that <span class="math inline">\(w_{v_i}\)</span> represents the demand weight for vertex <span class="math inline">\(v_i \in V\)</span>; similarly, define <span class="math display">\[A_E = (a_{e_1}, a_{e_2}, \ldots, a_{e_m} : m \in \Bbb N)\]</span> to be the (tree-metric) distance<sup><a href="#section2">[ii]</a></sup> between adjacent vertices such that, if <span class="math display">\[e_k=(v_{e_k},v_{e_k}&#39;)\]</span> where <span class="math inline">\(v_{e_k},v_{e_k}&#39; \in V\)</span>, then <span class="math display">\[a_{e_k} = \lVert e_k\rVert=\lVert v_{e_k} - v_{e_k}&#39; \rVert,\forall \ e_k \in E\]</span>
 </p>
 <p>
-Let the distance between any two arbitrary vertices <span class="math inline">\(v_i,v_j \in V\)</span> be defined as the mapping <span class="math inline">\(\delta:(v_i,v_j) \mapsto \delta(v_i,v_j)\)</span>, and then define the mapping <span class="math inline">\(\psi_{F_p} : v_i \mapsto \psi_{F_p} (v_i)\)</span> to be the minimum weighted distance between vertex <span class="math inline">\(v_i\)</span> and any facility within the potential median set; that is, <span class="math display">\[\psi_{F_p} (v_i) = v_{w_i} \cdot\min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)\]</span> For brevity, we will adopt the notation <span class="math inline">\(\delta (v_i,F_p)\)</span> to represent <span class="math inline">\(\min_{\mathscr f_z \in F_p} \delta (v_i, \mathscr f_z)\)</span>. Lastly, let the potential cost of locating a facility at the location <span class="math inline">\(\mathscr f_z\)</span> be defined as the mapping <span class="math inline">\(\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)\)</span>.
+Let the distance between any two arbitrary vertices <span class="math inline">\(v_i,v_j \in V\)</span> be defined as the mapping <span class="math inline">\(\delta:(v_i,v_j) \mapsto \delta(v_i,v_j)\)</span>, and then define the mapping <span class="math inline">\(\psi_{F_p} : v_i \mapsto \psi_{F_p} (v_i)\)</span> to be the minimum weighted distance between vertex <span class="math inline">\(v_i\)</span> and any facility within the potential median set; that is, <span class="math display">\[\psi_{F_p} (v_i) = w_{v_i} \cdot\min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)\]</span> For brevity, we will adopt the notation <span class="math inline">\(\delta (v_i,F_p)\)</span> to represent <span class="math inline">\(\min_{\mathscr f_z \in F_p} \delta (v_i, \mathscr f_z)\)</span>. Lastly, let the potential cost of locating a facility at the location <span class="math inline">\(\mathscr f_z\)</span> be defined as the mapping <span class="math inline">\(\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)\)</span>.
 </p>
 <p>
 We are now ready to formulate our objective function for any given potential median set: we define the mapping <span class="math inline">\(\Gamma: F_p \mapsto \Gamma(F_p)\)</span> by <span class="math display">\[\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i)\]</span> to be the objective function for any given potential median set <span class="math inline">\(F_p \subseteq V\)</span>.
@@ -283,11 +248,20 @@ We are now ready to formulate our objective function for any given potential med
 </div>
 <div id="creating-the-general-linear-programming-problem" class="section level2">
 <h2>Creating the General Linear Programming Problem</h2>
-<p>Because we wish to select from any arbitrary potential median set the one for which the objective function is minimized, our goal in solving the p-median problem is to find the median set <span class="math inline">\(\mathscr F_p\)</span> such that <span class="math display">\[\mathscr F_p = \min_{F_p \subseteq V} \Gamma (F_p)\]</span> We will show that, with a few adjustments in terminology and symbology, this <span class="math inline">\(\mathscr F_p\)</span> fits the form of <span class="math inline">\(\eqref{eq1}\)</span>.</p>
-<div id="rearranging-the-objective-function" class="section level3">
-<h3>Rearranging the Objective Function</h3>
 <p>
-Let us consider just <span class="math inline">\(\Gamma (F_p)\)</span> alone: we have that our objective function is given by <span class="math display">\[\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i)\]</span> We will now proceed by back-substituting our notation and mappings defined above in order to formulate the objective function in terms of given quantities. Because our next logical step is to substitute <span class="math display">\[\psi_{F_p} (v_i) \to v_{w_i} \cdot \delta (v_i,F_p)\]</span> followed by <span class="math display">\[\delta (v_i,F_p) \to \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)\]</span> we must move to formulate the minimum distance between any vertex in <span class="math inline">\(V\)</span> and any facility in the potential median set in terms of given quantities.
+Because we wish to select from any arbitrary potential median set the one for which the objective function is minimized, our goal in solving the p-median problem is to find the median set <span class="math inline">\(\mathscr F_p\)</span> such that <span class="math display">\[\mathscr F_p = \min_{F_p \subseteq V} \Gamma (F_p)\]</span> We will show that, with a few adjustments in terminology and symbology, this <span class="math inline">\(\mathscr F_p\)</span> fits the form of <span class="math inline">\(\eqref{eq1}\)</span>.
+</p>
+<p>
+Before now, we have not really paid any consideration towards what it is precisely that we are attempting to minimize mathematically; that is to say, although we are aware that our goal is to select a collection of vertices <span class="math inline">\(F_p\)</span> such that our weighted-distances are minimized, what exactly does this mean mathematically? And what portion of the objective function will serve to establish this meaning?
+</p>
+<p>
+In order to answer these questions above, we must establish two binary variables: first, we need to define a variable that determines whether or not some vertex <span class="math inline">\(v_{\mathscr f_z}\)</span> in our selection site is to be a facility location or not; and second, we must create a variable that indicates, given a particular vertex <span class="math inline">\(v_i \in V\)</span> and any facility <span class="math inline">\(\mathscr f_z \in F_z\)</span>, whether or not the given vertex is served by the given facility.
+</p>
+<p>
+By this construction, our first variable will be single-indexed, whereas our second variable will be double-indexed. We will denote the former variable by <span class="math inline">\(x_i\)</span> and the latter variable by <span class="math inline">\(y_{iz}\)</span>; clearly, it must be so that <span class="math inline">\(x_z,y_{iz} \in [0,1]\)</span>. For now, we will simply keep these variables in mind: we will establish their proper contribution to the linear programming model as well as the domain of their subscripts later on.
+</p>
+<p>
+Let us consider just <span class="math inline">\(\Gamma (F_p)\)</span> alone: we have that our objective function is given by <span class="math display">\[\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i)\]</span> We will now proceed by back-substituting our notation and mappings defined above in order to formulate the objective function in terms of given quantities. Because our next logical step is to substitute <span class="math display">\[\psi_{F_p} (v_i) \to w_{v_i} \cdot \delta (v_i,F_p)\]</span> followed by <span class="math display">\[\delta (v_i,F_p) \to \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)\]</span> we must move to formulate the minimum distance between any vertex in <span class="math inline">\(V\)</span> and any facility in the potential median set in terms of given quantities.
 </p>
 <p>
 Two possibilities arise: for the first case, suppose the vertex in question is an element of the median set; that is, <span class="math inline">\(v_i \in F_p\)</span>. It is clear that this immediately implies <span class="math display">\[\delta (v_i,F_p) = 0\]</span>
@@ -302,10 +276,12 @@ Let us denote the <span class="math inline">\(q\)</span> elements <span class="m
 Recall that the set <span class="math inline">\(A\)</span> is defined such that <span class="math inline">\(\forall\ a_{e_k} \in A_E,\ \exists \text{ corresponding } e_k \in E\)</span>. Hence, being careful about our notation, <span class="math inline">\(\forall\ \epsilon_r \in \epsilon \subset E,\ \exists \text{ corresponding } a_{\epsilon_r} \in A_{\epsilon} \subset A_E\)</span>. Thus, it follows that the subset <span class="math inline">\(A_{\epsilon} \subset A_E\)</span> represents the distances between each adjacent node within the set <span class="math inline">\(K \in V\)</span>, <span class="math inline">\(\forall\ v_i \in V\)</span> and <span class="math inline">\(\forall\ \mathscr f_z \in F_p\)</span>
 </p>
 <p>
-Hence, the distance between arbitrary vertex <span class="math inline">\(v_i \in V\)</span> and arbitrary potential facility location <span class="math inline">\(\mathscr f_z \in F_p\)</span> is <span class="math display">\[\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r} = \sum_{r=1}^{q-1} \lVert \varepsilon_r (v_i,\mathscr f_z) \rVert = \sum_{r=1}^{q-1} \lVert \epsilon_r \rVert = \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}&#39;\rVert\]</span> leading to <span class="math display">\[\psi_{F_p} (v_i) = v_{w_i} \cdot \delta (v_i,F_p) = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z) = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}&#39;\rVert = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}&#39;\rVert\]</span> Satisfied with our notation, we will from here on out write <span class="math inline">\(\lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}&#39;\rVert\)</span> as <span class="math inline">\(a_{\varepsilon_r (v_i,\mathscr f_z)}\)</span> and take the notational convention that <span class="math inline">\(a_{\epsilon_r} \gt 0\)</span>.Thus, <span class="math display">\[\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\]</span>
+Hence, the distance between arbitrary vertex <span class="math inline">\(v_i \in V\)</span> and arbitrary potential facility location <span class="math inline">\(\mathscr f_z \in F_p\)</span> is <span class="math display">\[\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r} = \sum_{r=1}^{q-1} \lVert \varepsilon_r (v_i,\mathscr f_z) \rVert = \sum_{r=1}^{q-1} \lVert \epsilon_r \rVert = \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}&#39;\rVert\]</span> leading to <span class="math display">\[\psi_{F_p} (v_i) = w_{v_i} \cdot \delta (v_i,F_p) = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z) = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}&#39;\rVert = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}&#39;\rVert\]</span> Satisfied with our notation, we will from here on out write <span class="math inline">\(\lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}&#39;\rVert\)</span> as <span class="math inline">\(a_{\varepsilon_r (v_i,\mathscr f_z)}\)</span> and take the notational convention that <span class="math inline">\(a_{\epsilon_r} \gt 0\)</span>.Thus, <span class="math display">\[\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\]</span>
 </p>
 <p>
-To proceed further, let us expand the summation for <span class="math inline">\(\mathscr f_z \in F_p\)</span>; additionally, we will denote <span class="math inline">\(f_z\)</span> to be the <span class="math inline">\(\mathscr f_z \in F_p\)</span> which minimizes the sum of the distances : <span class="math display">\[\Gamma(F_p) = [\gamma(\mathscr f_1) + \gamma(\mathscr f_2) + \ldots + \gamma(\mathscr f_p)] + [ \sum_{v_i \in V} w_{v_i} \cdot \min_{\mathscr f_z \in F_p} [a_{\varepsilon_1 (v_i,\mathscr f_z)} + a_{\varepsilon_1 (v_2,\mathscr f_z)} + \ldots + a_{\varepsilon_{q-1} (v_i,\mathscr f_z)}] ]\]</span> <span class="math display">\[=[\gamma(\mathscr f_1) + \gamma(\mathscr f_2) + \ldots + \gamma(\mathscr f_p)] + [ \sum_{v_i \in V} w_{v_i} \cdot [a_{\varepsilon_1 (v_i,f_z)} + a_{\varepsilon_1 (v_2,f_z)} + \ldots + a_{\varepsilon_{q-1} (v_i,f_z)}] ]\]</span>
+<p>At this point, we will introduce into the objective function one of the variables we defined earlier, <span class="math inline">\(y_{iz}\)</span>. We will do this in order to make precise what is meant by “<span class="math inline">\(\min_{\mathscr f_z \in F_p}\)</span>”; let <span class="math inline">\(i = 1, 2, \ldots, n\)</span> denote a given vertex <span class="math inline">\(v_i \in V\)</span> and let <span class="math inline">\(z = 1,2,\ldots,m\ |\ m \le n\)</span> denote a given vertex <span class="math inline">\(v_{\mathscr f_z} \in V\)</span> from a subset of vertices $V|_{F_p} V $ from which candidate facility locations may be selected.By defining <span class="math display">\[y_{iz} = 1 \text{ if } v_i \text{ served by } \mathscr f_z, 0 \text{ o.w.}\]</span>, we can replace <span class="math inline">\(\sum_{\mathscr f_z in F_P}\)</span> by <span class="math inline">\(\sum_{z=1}^m\)</span>, which allows us to use linear programming algorithms to solve the objective function. Our objective function is now <span class="math display">\[\Gamma(F_p)== \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{i=1}^n w_{v_i} \cdot \sum_{z=1}^m \sum_{r=1}^{q-1} y_{iz} \cdot a_{\varepsilon_r (v_i,\mathscr f_z)}\]</span></p>
+<p>
+Lastly, we define <span class="math inline">\(x_z\)</span> to establish exactly how and to what the assignment of <span class="math inline">\(F_p\)</span> involves: <span class="math display">\[x_z = 1 \text{ if } v_z \in V|_{F_p} \text{ is to be a facility location ition in the potential median set}, 0 \text{ o.w. }\]</span>
 </p>
 <p>
 A quick review of our notation used thus far:
@@ -329,7 +305,7 @@ A quick review of our notation used thus far:
 <span class="math inline">\(\delta (v_i,v_j)\)</span> represents the distance between any two (possibly non-adjacent) arbitrary vertices <span class="math inline">\(v_i,v_j \in V\)</span> <b>as a function of any two vertices in <span class="math inline">\(V\)</span></b>; additionally, <span class="math inline">\(\delta (v_i,F_p)\)</span> is defined to be the minimum distance between vertex <span class="math inline">\(v_i\)</span> and any facility within the potential median set
 </li>
 <li>
-<span class="math inline">\(\psi_{F_p} (v_i) = v_{w_i} \cdot \delta (v_i,F_p)\)</span> represents the minimum weighted distance between vertex <span class="math inline">\(v_i\)</span> and any facility within the potential median set <b>as a function of potential median sets</b>
+<span class="math inline">\(\psi_{F_p} (v_i) = w_{v_i} \cdot \delta (v_i,F_p)\)</span> represents the minimum weighted distance between vertex <span class="math inline">\(v_i\)</span> and any facility within the potential median set <b>as a function of potential median sets</b>
 </li>
 <li>
 <span class="math inline">\(\gamma (f_z)\)</span> represents the potential cost of locating a facility at the location <span class="math inline">\(f_z\)</span> in the potential median set <b>as a function of facilities within a given potential median set</b>
@@ -340,11 +316,22 @@ A quick review of our notation used thus far:
 <li>
 <span class="math inline">\(\mathscr F_p\)</span> is the set of <span class="math inline">\(p\)</span> nodes selected from possible demand nodes that represents the minimized total cost incurred given a potential median set; it is the <b>minimal p-median set</b>: the solution to the p-median problem
 </li>
+<li>
+<span class="math inline">\(\phi: (v_i, \mathscr f_z) \mapsto K\)</span> represents the subset of vertices (in sequential order) spanned going from a given demand node <span class="math inline">\(v_i \in V\)</span> to any facility location <span class="math inline">\(\mathscr f_z\)</span> in the potential median set, <span class="math inline">\(F_p\)</span>; we denote each vertex in <span class="math inline">\(K\)</span> by <span class="math inline">\(v_{\mathscr f_q}\)</span>
+</li>
+<li>
+<span class="math inline">\(\varepsilon: (v_i,\mathscr f_z,r) \mapsto \epsilon\)</span> represents the set of edges <span class="math inline">\(\varepsilon_r (v_i,\mathscr f_z) = (\Phi \circ \phi)_r (v_i,\mathscr f_z)= \epsilon_r\)</span> (in sequential order) spanned by <span class="math inline">\(K\)</span> going from a given demand node <span class="math inline">\(v_i \in V\)</span> to any facility location <span class="math inline">\(\mathscr f_z\)</span> in the potential median set, <span class="math inline">\(F_p\)</span>
+</li>
 </ul>
 </p>
-<p>
-<p>Let <span class="math inline">\(\xi\)</span> denote the sum of all <span class="math inline">\(\varepsilon\)</span> for given <span class="math inline">\(v_i,\mathscr f_z\)</span>: <span class="math display">\[\xi (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z) \]</span> Our objective function has now become <span class="math display">\[\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} v_{w_i} \cdot \xi (v_i,\mathscr f_z) \]</span> Finally, because there exists a one-to-one correspondence between <span class="math inline">\(v_i \in V \text{ and } i=1,2,\cdots,n\)</span> as well as between <span class="math inline">\(\mathscr f_z \in F_p \text{ and } z=1,2,\cdots,n\)</span></p>
 </div>
+<div id="formulating-the-constraint-equations" class="section level2">
+<h2>Formulating the Constraint Equations</h2>
+<p>
+In order to finish establishing the p-median problem in the form of the general programming problem, we need a set of constraint equations that must be satisfied by the objective function. These constraint equations can be formulated by specifying the terms of the model in its physical specificities/limitations.
+</p>
+<p>
+<p>We first consider the weights attached to each node <span class="math inline">\(v_i\)</span> within the model. By definition, all of these weights must sum to one. Hence, our first constraint is of the form <span class="math display">\[\sum_{i=1}^n w_{v_i} = 1\]</span></p>
 </div>
 </div>
 <div id="references" class="section level1">
@@ -353,7 +340,9 @@ A quick review of our notation used thus far:
 [i] “(PDF) A New Template for Solving p-Median Problems for Trees in Sub-Quadratic Time.” ResearchGate. Accessed April 22, 2019. <cite><a href="https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time" class="uri">https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time</a></cite>.
 </p>
 <p id="section2">
-<p>[ii] For simplicity, by the term “tree-metric distance” here, we are meaning to say that the distance between any two nodes of <span class="math inline">\(T\)</span> is given by the “tree-path” distance described by the topology of the tree itself.</p>
+[ii] For simplicity, by the term “tree-metric distance” here, we are meaning to say that the distance between any two nodes of <span class="math inline">\(T\)</span> is given by the “tree-path” distance described by the topology of the tree itself.
+<p id="section3">
+<p>[iii] More specifically, <span class="math inline">\(a_{\varepsilon_r (v_i,\mathscr f_z)}\)</span> is linear in terms of <span class="math inline">\(F_p\)</span> <it>with respect to</it> each <span class="math inline">\(v_i \in V\)</span>. However, because <span class="math inline">\(\psi_{F_p} (v_i)\)</span> is linear in terms of <span class="math inline">\(v_i\)</span>, the linearty of the objective function still follows accordingly.</p>
 </div>
 
 

@@ -61,6 +61,12 @@ output:
     font-size: 17px !important;
     font-family: "Times New Roman", Times, serif !important;
   }
+  
+  .reference {
+    font-size: 13px;
+    font-family:"Times New Roman", Times, serif;
+    margin: 10px 20px;
+  }
 </style>
 
   
@@ -71,12 +77,16 @@ output:
   
 # The Statement of the Problem
 
-The p-median problem is an application of linear optimization approaches with respect to a graph. Specifically,  it is a facility-location model with the purpose of locating $p$ facilities (hereafter referred to as vertices or nodes) to minimize a constraint equation based on weighted average distances between demand nodes and selection location nodes.
+<p>
+  The p-median problem is an application of linear optimization approaches with respect to a graph. Specifically,  it is a facility-location model with the purpose of locating $p$ facilities (hereafter referred to as vertices or nodes) to minimize a constraint equation based on weighted average distances between demand nodes and selection location nodes.
+</p>
 
 <p>
   Stated more formally, given some graph $G=(V,E)$ where 
-  $$V=(v_1,\ldots,v_n: n \in \Bbb N)$$ is a set of nodes of $G$, each representing a demand weight, and where 
-  $$E=(e_1,\ldots,e_m: m \in \Bbb N)$$ is a set of connected nodes of $G$, the p-median problem seeks to find any number $p$ vertices such that the sum of the weighted distances from each vertex in $G$ to the closest facility is minimized. The lengths between each vertex and each facility is calculated by taking the absolute value of each member of $E$ that represents a successive path connection of nodes in between the two and computing their sum.
+  $$V=(v_1,\ldots,v_n: n \in \Bbb N)$$
+  is a set of nodes of $G$, each representing a demand weight, and where 
+  $$E=(e_1,\ldots,e_m: m \in \Bbb N)$$
+  is a set of connected nodes of $G$, the p-median problem seeks to find any number $p$ vertices such that the sum of the weighted distances from each vertex in $G$ to the closest facility is minimized. The lengths between each vertex and each facility is calculated by taking the absolute value of each member of $E$ that represents a successive path connection of nodes in between the two and computing their sum.
 </p>
 
 <p>
@@ -95,7 +105,10 @@ The p-median problem is an application of linear optimization approaches with re
 
 
 # Rectifying the Issue of Computational Complexity
-Unfortunately, when attempting to perform optimization calculations for this problem using a general graph, the computation time is $\mathcal N \mathcal P$-hard. We can rectify this however by formulating the problem using a mathematical tree.
+
+<p>
+  Unfortunately, when attempting to perform optimization calculations for this problem using a general graph, the computation time is $\mathcal N \mathcal P$-hard. We can rectify this however by formulating the problem using a mathematical tree.
+</p>
 
 <div class="figure">
   <figure>
@@ -109,7 +122,8 @@ Unfortunately, when attempting to perform optimization calculations for this pro
   Given some graph $G=(V,E)$ where
   $$V=(v_1,\ldots,v_n: n \in \Bbb N)$$
   is a set of nodes of $G$, and where
-  $$E=(e_1,\ldots,e_m: m \in \Bbb N)$$ is a set of connected nodes of $G$, we call the graph $T=G$ a <b>tree</b> if it is undirected, connected, and contains no cycles. From the procedures detailed in (Benkoczi et al.)<sup><a href="#section1">[i]</a></sup>, if $T$ is both <b>rooted</b> (meaning that there exists a hierarchy within the tree such that one node is considered to be at the ultimate level) and <b>binary</b> (meaning that for any 'parent' node, there are at most two 'child' nodes directly below them; taking "below" to mean "at a lower level with respect to the root hierarchy", 'parent' to mean "superior to the child with respect to the hierarchy", and 'child' to mean "inferior to the parent with respect to the hierarchy"), then an $O(nlog^{p+2}n)$ algorithm exists; thus, a solution to the p-median problem on $T$ can be computed in polynomial time.
+  $$E=(e_1,\ldots,e_m: m \in \Bbb N)$$
+  is a set of connected nodes of $G$, we call the graph $T=G$ a <b>tree</b> if it is undirected, connected, and contains no cycles. From the procedures detailed in (Benkoczi et al.)<sup><a href="#section1">[i]</a></sup>, if $T$ is both <b>rooted</b> (meaning that there exists a hierarchy within the tree such that one node is considered to be at the ultimate level) and <b>binary</b> (meaning that for any 'parent' node, there are at most two 'child' nodes directly below them; taking "below" to mean "at a lower level with respect to the root hierarchy", 'parent' to mean "superior to the child with respect to the hierarchy", and 'child' to mean "inferior to the parent with respect to the hierarchy"), then an $O(nlog^{p+2}n)$ algorithm exists; thus, a solution to the p-median problem on $T$ can be computed in polynomial time.
 </p>
 
 <p>
@@ -127,6 +141,7 @@ Unfortunately, when attempting to perform optimization calculations for this pro
 
 
 # Setting up the p-median Problem as a Linear Programming Problem
+
 <p>
   Now that we have established that we can find a solution to the p-median problem in polynomial time by setting up the problem as a tree, we desire to formulate the p-median problem as a linear programming problem. The form for the general linear programming problem is as follows:
 <blockquote>
@@ -135,12 +150,14 @@ Unfortunately, when attempting to perform optimization calculations for this pro
   subject to
   $$\sum_{i=1}^n a_{ij} x_i = b_j \forall \ j=1,2,\ldots,m \tag{2}\label{eq2}$$
   and 
-  $$x_i\ge 0, \forall \ i=1,2,\ldots,n \tag{3}\label{eq3}$$ where 
+  $$x_i\ge 0, \forall \ i=1,2,\ldots,n \tag{3}\label{eq3}$$
+  where 
   $$a_{ij},c_i \in \Bbb R \text{, } b_j \ge 0 \text{, and } m\lt n \tag{4}\label{eq4}$$
 </blockquote>
+</p>
 
 <p>
-  We will begin by defining the terminology of bipartite graphs to make use of in subsequent calculations. Next, we will formulate the the total cost as a function of any given collection of $p$ vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these procedures into three subsections.
+  We will first formulate the total cost as a function of any given collection of $p$ vertices from our set of nodes; we will refer to this function as the <b>objective function</b>. Once this is done, we will use this objective function to formulate the p-median problem in the form of the general linear programming problem. We divide these procedures into three subsections.
 </p>
 
 
@@ -148,55 +165,6 @@ Unfortunately, when attempting to perform optimization calculations for this pro
 
 
 
-## Bipartite Graphs
-
-<div class="figure">
-  <figure>
-  <img src="D:\`Grad_Research\Rudy_RA_Work\Bike-Share\Images\bipartite_graphs.png" style="width: 100%;">
-  <div class="container">
-  An example of a bipartite graph, $G=(V,E)$. The vertices $V$ are outlined in purple, the vertices of $X \subset V$ are filled in blue, the vertices $Y \subset V$ are filled in green, the edges $E$ are colored red, and the entire graph $G$ is shaded in grey.
-  </div>
-  </figure>
-</div>
-
-<p>
-  At this point, we will define the concept of bipartite graphs to make use of later. Suppose $G=(V,E)$ is a graph;; that is, $G$ is an ordered pair $G=(V,E)$ comprised of $V$, a set of nodes or "vertices", as well as $E$, a set of edges or "links". For bipartite graphs, the only (fundamental) change is that we now divide the vertex set $V$ into two disjoint and independent subsets of vertices; that is,
-  $$X,Y : X \cap Y = \emptyset \text{ and } X \cup Y = V $$
-  Furthermore, an additional restriction is placed upon each edge element: if $e_k \in E$ is any edge of $G$, then $e_k$ connects an element in $X$ to an element in $Y$; that is,
-  $$\text{if } e_k = (v_{e_k},v_{e_k}') \in E \text{, then } v_{e_k} \in X \iff v_{e_k}' \in Y$$
-</p>
-
-<div class="figure">
-  <figure>
-  <img src="D:\`Grad_Research\Rudy_RA_Work\Bike-Share\Images\trees_as_bipartite_graphs.png" style="width: 100%;">
-  <div class="container">
-  An example of the above proof applied to some rooted, binary tree, $T$. Blue nodes represent either even children of the root node "1" or the root node itself; green nodes represent odd children of the root node "1". Numbers and lowercase letters denote vertices; capital letters denote edges.
-  </div>
-  </figure>
-</div>
-
-<p>
-  A property of trees is that every tree is a bipartite graph. To prove this, begin with some rooted tree $T$ (if $T$ is not rooted, any arbitrarily selected node to serve as the root may be selected). We will adopt the notation "an <b>odd</b>/<b>even</b> child" to indicate a node that is an odd/even number of levels beneath the root node with respect to the hierarchy, respectively. 
-</p>
-<p>
-  Define the set $X \subset V$ to be the collection of all such nodes within $V$ that are either even children of the root node or the root node itself; define the set $Y \subset V$ to be the collection of all such nodes within $V$ that are odd children of the root node. From these definitions, we have the first established property of bipartite graphs: 
-  $$X \cap Y = \emptyset \text{ and } X \cup Y = V$$
-</p>
-
-<p>
-  Showing the additional property about edges is a simple task: consider any arbitrary edge 
-  $$e_k=(v_{e_k},v_{e_k}') \in E \implies v_{e_k}, v_{e_k}' \in V$$ 
-  Because $T$ is an acyclic graph by definition, taking the convetion that the $0^{th}$ node of $T$ refers to the root node of $T$, it must be so that either
-  <ol>
-  <li>$\forall\ v_{e_k}$ in the $n^{th}$ hierarchy of $T$ where $n \in \Bbb N_0$, $v_{e_k}$ is the parent node to $v_{e_k}'$ which lies in the $(n+1)^{th}$ hierarchy of $T$</li>
-  <li>$\forall\ v_{e_k}$ in the $(n+1)^{th}$ hierarchy of $T$ where $n \in \Bbb N_0$, $v_{e_k}$ is the child node to $v_{e_k}'$ which lies in the $n^{th}$ hierarchy of $T$</li>
-  </ol>
-  For either case with $n \ne 0$, 
-  $$n \in 2\Bbb N_0 \iff (n + 1) \notin 2 \Bbb N_0$$
-  meaning that if $v_{e_k}$ is in an even hierarchy of $T$, then $v_{e_k}'$ is in an odd hierarchy of $T$; the inverse statement holds as well. Hence,
-  $$v_{e_k} \in X \iff v_{e_k}' \in Y,\ \forall\ n \in \Bbb N^*$$
-  We can extend this to include the case where $n = 0$ by seeing that $v_{e_k}$ is the root node of $T$ (and hence is included in $X$) and that $v_{e_k}'$ is in an odd hierarchy of $T$, thus $v_{e_k}' \in Y$. The proof that $T$ is a bipartite graph follows from here.
-</p>
 
 
 
@@ -205,19 +173,23 @@ Unfortunately, when attempting to perform optimization calculations for this pro
 
 ## Formulating the Objective Function
 
-
 <p>
   Let $T=G$ be as before, and let
-  $$F_p=(\mathscr f_1, \mathscr f_2, \dots,\mathscr f_p:p\leq n \in \Bbb N)$$ be a collection of some $p$ vertices in $T$ which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for $T$. Let
-  $$W_V = (w_{v_1}, w_{v_2}, \ldots,w_{v_n} : n \in \Bbb N)$$ be such that $w_{v_i}$ represents the demand weight for vertex $v_i \in V$; similarly, define
-  $$A_E = (a_{e_1}, a_{e_2}, \ldots, a_{e_m} : m \in \Bbb N)$$ to be the (tree-metric) distance<sup><a href="#section2">[ii]</a></sup> between adjacent vertices such that, if
-  $$e_k=(v_{e_k},v_{e_k}')$$ where $v_{e_k},v_{e_k}' \in V$, then
+  $$F_p=(\mathscr f_1, \mathscr f_2, \dots,\mathscr f_p:p\leq n \in \Bbb N)$$ 
+  be a collection of some $p$ vertices in $T$ which represent a potential facility-location set (hereafter referred to as <i>median set</i>) for $T$. Let
+  $$W_V = (w_{v_1}, w_{v_2}, \ldots,w_{v_n} : n \in \Bbb N)$$
+  be such that $w_{v_i}$ represents the demand weight for vertex $v_i \in V$; similarly, define
+  $$A_E = (a_{e_1}, a_{e_2}, \ldots, a_{e_m} : m \in \Bbb N)$$
+  to be the (tree-metric) distance<sup><a href="#section2">[ii]</a></sup> between adjacent vertices such that, if
+  $$e_k=(v_{e_k},v_{e_k}')$$
+  where $v_{e_k},v_{e_k}' \in V$, then
   $$a_{e_k} = \lVert e_k\rVert=\lVert v_{e_k} - v_{e_k}' \rVert,\forall \ e_k \in E$$
 </p>
 
 <p>
   Let the distance between any two arbitrary vertices $v_i,v_j \in V$ be defined as the mapping $\delta:(v_i,v_j) \mapsto \delta(v_i,v_j)$, and then define the mapping $\psi_{F_p} : v_i \mapsto \psi_{F_p} (v_i)$ to be the minimum weighted distance between vertex $v_i$ and any facility within the potential median set; that is,
-  $$\psi_{F_p} (v_i) = v_{w_i} \cdot\min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ For brevity, we will adopt the notation $\delta (v_i,F_p)$ to represent $\min_{\mathscr f_z \in F_p} \delta (v_i, \mathscr f_z)$. Lastly, let the potential cost of locating a facility at the location $\mathscr f_z$ be defined as the mapping $\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)$.
+  $$\psi_{F_p} (v_i) = w_{v_i} \cdot\min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$
+  For brevity, we will adopt the notation $\delta (v_i,F_p)$ to represent $\min_{\mathscr f_z \in F_p} \delta (v_i, \mathscr f_z)$. Lastly, let the potential cost of locating a facility at the location $\mathscr f_z$ be defined as the mapping $\gamma:\mathscr f_z \mapsto \gamma(\mathscr f_z)$.
 </p>
 
 <p>
@@ -233,21 +205,39 @@ Unfortunately, when attempting to perform optimization calculations for this pro
 
 
 ## Creating the General Linear Programming Problem
-Because we wish to select from any arbitrary potential median set the one for which the objective function is minimized, our goal in solving the p-median problem is to find the median set $\mathscr F_p$ such that 
-$$\mathscr F_p = \min_{F_p \subseteq V} \Gamma (F_p)$$
-We will show that, with a few adjustments in terminology and symbology, this $\mathscr F_p$ fits the form of $\eqref{eq1}$. 
 
-
-
-
-### Rearranging the Objective Function
 <p>
-  Let us consider just $\Gamma (F_p)$ alone: we have that our objective function is given by
-  $$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i)$$ We will now proceed by back-substituting our notation and mappings defined above in order to formulate the objective function in terms of given quantities. Because our next logical step is to substitute $$\psi_{F_p} (v_i) \to v_{w_i} \cdot \delta (v_i,F_p)$$ followed by $$\delta (v_i,F_p) \to \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$ we must move to formulate the minimum distance between any vertex in $V$ and any facility in the potential median set in terms of given quantities.
+  Because we wish to select from any arbitrary potential median set the one for which the objective function is minimized, our goal in solving the p-median problem is to find the median set $\mathscr F_p$ such that 
+  $$\mathscr F_p = \min_{F_p \subseteq V} \Gamma (F_p)$$
+  We will show that, with a few adjustments in terminology and symbology, this $\mathscr F_p$ fits the form of $\eqref{eq1}$. 
 </p>
 
 <p>
-  Two possibilities arise: for the first case, suppose the vertex in question is an element of the median set; that is, $v_i \in F_p$. It is clear that this immediately implies $$\delta (v_i,F_p) = 0$$
+  Before now, we have not really paid any consideration towards what it is precisely that we are attempting to minimize mathematically; that is to say, although we are aware that our goal is to select a collection of vertices $F_p$ such that our weighted-distances are minimized, what exactly does this mean mathematically? And what portion of the objective function will serve to establish this meaning?
+</p>
+
+<p>
+  In order to answer these questions above, we must establish two binary variables: first, we need to define a variable that determines whether or not some vertex $v_{\mathscr f_z}$ in our selection site is to be a facility location or not; and second, we must create a variable that indicates, given a particular vertex $v_i \in V$ and any facility $\mathscr f_z \in F_z$, whether or not the given vertex is served by the given facility.
+</p>
+
+<p>
+  By this construction, our first variable will be single-indexed, whereas our second variable will be double-indexed. We will denote the former variable  by $x_i$ and the latter variable by $y_{iz}$; clearly, it must be so that $x_z,y_{iz} \in [0,1]$. For now, we will simply keep these variables in mind: we will establish their proper contribution to the linear programming model as well as the domain of their subscripts later on.
+</p>
+
+
+<p>
+  Let us consider just $\Gamma (F_p)$ alone: we have that our objective function is given by
+  $$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i)$$
+  We will now proceed by back-substituting our notation and mappings defined above in order to formulate the objective function in terms of given quantities. Because our next logical step is to substitute 
+  $$\psi_{F_p} (v_i) \to w_{v_i} \cdot \delta (v_i,F_p)$$
+  followed by 
+  $$\delta (v_i,F_p) \to \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z)$$
+  we must move to formulate the minimum distance between any vertex in $V$ and any facility in the potential median set in terms of given quantities.
+</p>
+
+<p>
+  Two possibilities arise: for the first case, suppose the vertex in question is an element of the median set; that is, $v_i \in F_p$. It is clear that this immediately implies 
+  $$\delta (v_i,F_p) = 0$$
 </p>
 
 <p>
@@ -272,16 +262,42 @@ We will show that, with a few adjustments in terminology and symbology, this $\m
 
 <p>
   Hence, the distance between arbitrary vertex $v_i \in V$ and arbitrary potential facility location $\mathscr f_z \in F_p$ is
-  $$\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r} = \sum_{r=1}^{q-1} \lVert \varepsilon_r (v_i,\mathscr f_z) \rVert = \sum_{r=1}^{q-1} \lVert \epsilon_r \rVert = \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}'\rVert$$ leading to 
-  $$\psi_{F_p} (v_i) = v_{w_i} \cdot \delta (v_i,F_p) = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z) = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}'\rVert = v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}'\rVert$$ 
+  $$\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r} = \sum_{r=1}^{q-1} \lVert \varepsilon_r (v_i,\mathscr f_z) \rVert = \sum_{r=1}^{q-1} \lVert \epsilon_r \rVert = \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}'\rVert$$
+  leading to 
+  $$\psi_{F_p} (v_i) = w_{v_i} \cdot \delta (v_i,F_p) = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z) = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}'\rVert = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}'\rVert$$ 
   Satisfied with our notation, we will from here on out write $\lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}'\rVert$ as $a_{\varepsilon_r (v_i,\mathscr f_z)}$ and take the notational convention that $a_{\epsilon_r} \gt 0$.Thus,
-  $$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} v_{w_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}$$
+  $$\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}$$
 </p>
   
 <p>
-  To proceed further, let us expand the summation for $\mathscr f_z \in F_p$; additionally, we will denote $f_z$ to be the $\mathscr f_z \in F_p$ which minimizes the sum of the distances :
-  $$\Gamma(F_p) = [\gamma(\mathscr f_1) + \gamma(\mathscr f_2) + \ldots + \gamma(\mathscr f_p)] + [ \sum_{v_i \in V} w_{v_i} \cdot \min_{\mathscr f_z \in F_p} [a_{\varepsilon_1 (v_i,\mathscr f_z)} + a_{\varepsilon_1 (v_2,\mathscr f_z)} + \ldots + a_{\varepsilon_{q-1} (v_i,\mathscr f_z)}] ]$$ $$=[\gamma(\mathscr f_1) + \gamma(\mathscr f_2) + \ldots + \gamma(\mathscr f_p)] + [ \sum_{v_i \in V} w_{v_i} \cdot [a_{\varepsilon_1 (v_i,f_z)} + a_{\varepsilon_1 (v_2,f_z)} + \ldots + a_{\varepsilon_{q-1} (v_i,f_z)}] ]$$
+  At this point, we will introduce into the objective function one of the variables we defined earlier, $y_{iz}$. We will do this in order to make precise what is meant by "$\min_{\mathscr f_z \in F_p}$". Let $i = 1, 2, \ldots, n$ denote a given vertex $v_i \in V$ and let $z = 1,2,\ldots,m\ |\ m \le n$ denote a given vertex $v_{\mathscr f_z} \in V$ from a subset of vertices $V|_{F_p} \subseteq V$ from which candidate facility locations may be selected; we will use the convention  $v_z \in V|_{F_p}$ equivalently with $v_{\mathscr f_z} \in V$. We define this by
+  $$y_{iz} = 1 \text{ if } v_i \text{ served by } \mathscr f_z, 0 \text{ o.w.}$$
+  We also now define $x_z$ to establish exactly how and to what the assignment of $F_p$ involves by: 
+  $$x_z = 1 \text{ if } v_z \in V|_{F_p} \text{ is to be a facility location ition in the potential median set}, 0 \text{ o.w. }$$
 </p>
+  
+<p>
+  Using these variables, we can now replace $\min_{\mathscr f_z \in F_P}$ by $\sum_{z=1}^m y_{iz}$ and replace $\sum_{\mathscr f_z \in F_P}$ with $\sum_{z=1}^m x_z$<sup><a href="section3">[iii]</a></sup>, which allows us to use linear programming algorithms to solve the objective function. Our objective function is now
+  $$\Gamma_{iz}= \sum_{z=1}^m x_z \cdot \gamma (\mathscr f_z) + \sum_{i=1}^n w_{v_i} \cdot \sum_{z=1}^m y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}$$
+  We can then distribute $\sum_{i=1}^n w_{v_i}$ into the sum $\sum_{z=1}^{m}$, leading to
+  $$\Gamma_{iz} = \sum_{z=1}^m x_{z}\cdot \gamma (\mathscr f_z) + \sum_{z=1}^m\ \Bigl( \sum_{i=1}^n w_{v_i} y_{iz} \cdot \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)} \Bigr)$$ 
+</p>
+
+<p>
+  Now, WLOG, because 
+  $$y_{iz} = 1 \implies x_z = 1$$
+  we may multiply the quantity in the large parenthesis of the second term by x_z and keep equality with our previous formula for our objective function; that is,
+  $$\Gamma_{iz} = \sum_{z=1}^m x_{z} \cdot \gamma (\mathscr f_z) + \sum_{z=1}^m\ x_z \cdot \Bigl( \sum_{i=1}^n w_{v_i} y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)} \Bigr)$$ 
+  This allows us to distribute $\sum_{z=1}^m x_z$ out of both quantities, leading to
+  $$\sum_{z=1}^m x_z \cdot \Bigl(\ \gamma (\mathscr f_z) + \sum_{i=1}^n w_{v_i} y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\ \Bigr) = \sum_{z=1}^m x_z \cdot \biggl(\ \sum_{i=1}^n \Bigl(\ \gamma (\mathscr f_z) \cdot n^{-1} +  w_{v_i} y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\ \Bigr)\ \biggr)$$
+</p>
+
+<p>  
+  Finally, if we denote by $c_z$ the value of the quantity within the largest parentheses at a given value $z = 1, 2, \ldots, m$, we can write the objective function as
+  $$\Gamma_z = \sum_{z=1}^m x_z c_z$$
+  Because $c_z$ is linear in terms of $z$<sup><a href="#section4">[iv]</a></sup>, we have established that the objective function we have developed for the p-median problem fits the form of $\eqref{eq1}$, as desired.
+</p>
+
 
 <p>
   A quick review of our notation used thus far:
@@ -292,31 +308,96 @@ We will show that, with a few adjustments in terminology and symbology, this $\m
   <li> $A_E$ is the set of norms of $E$ (with respect to the tree-metric) where $\forall\ e_k \in E,\ \exists\ a_{e_k} \in A_E$ representing the distance between the adjacent nodes $v_{e_k}$ and $v_{e_k}'$ attached to edge $e_k$ </li>
   <li> $F_p \subset V$ is some arbitrary collection of $p$ nodes selected from possible demand nodes to allocate as potential facility locations; we call this the potential median set </li>
   <li> $\delta (v_i,v_j)$ represents the distance between any two (possibly non-adjacent) arbitrary vertices $v_i,v_j \in V$ <b>as a function of any two vertices in $V$</b>; additionally, $\delta (v_i,F_p)$ is defined to be the minimum distance between vertex $v_i$ and any facility within the potential median set </li>
-  <li> $\psi_{F_p} (v_i) = v_{w_i} \cdot \delta (v_i,F_p)$ represents the minimum weighted distance between vertex $v_i$ and any facility within the potential median set <b>as a function of potential median sets</b></li>
+  <li> $\psi_{F_p} (v_i) = w_{v_i} \cdot \delta (v_i,F_p)$ represents the minimum weighted distance between vertex $v_i$ and any facility within the potential median set <b>as a function of potential median sets</b></li>
   <li> $\gamma (f_z)$ represents the potential cost of locating a facility at the location $f_z$ in the potential median set <b>as a function of facilities within a given potential median set</b></li>
   <li> $\Gamma (F_p)$ represents the total cost incurred given any potential median set <b>as a function of potential median sets</b></li>
   <li> $\mathscr F_p$ is the set of $p$ nodes selected from possible demand nodes that represents the minimized total cost incurred given a potential median set; it is the <b>minimal p-median set</b>: the solution to the p-median problem </li>
+  <li> $\phi: (v_i, \mathscr f_z) \mapsto K$ represents the subset of vertices (in sequential order) spanned going from a given demand node $v_i \in V$ to any facility location $\mathscr f_z$ in the potential median set, $F_p$; we denote each vertex in $K$ by $v_{\mathscr f_q}$</li>
+  <li> $\varepsilon: (v_i,\mathscr f_z,r) \mapsto \epsilon$ represents the set of edges $\varepsilon_r (v_i,\mathscr f_z) = (\Phi \circ \phi)_r (v_i,\mathscr f_z)= \epsilon_r$ (in sequential order) spanned by $K$ going from a given demand node $v_i \in V$ to any facility location $\mathscr f_z$ in the potential median set, $F_p$ </li>
+  <li> $y_{iz}$ indicates whether or not vertex $v_i \in V$ is served by facility $\mathscr f_z \in F_p$ </li>
+  <li> $x_z$ indicates whether or not candidate facility $v_z \in V|_{F_p}$ lies in the potential median set $F_p$
   </ul>
 </p>
 
 
 
 
+
+
+
+## Formulating the Constraint Equations
+
 <p>
-  Let $\xi$ denote the sum of all $\varepsilon$ for given $v_i,\mathscr f_z$: $$\xi (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} \varepsilon_r (v_i,\mathscr f_z) $$
-  Our objective function has now become $$\Gamma (F_p) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} v_{w_i} \cdot \xi (v_i,\mathscr f_z) $$
-  Finally, because there exists a one-to-one correspondence between $v_i \in V \text{ and } i=1,2,\cdots,n$ as well as between $\mathscr f_z \in F_p \text{ and } z=1,2,\cdots,n$
+  In order to finish establishing the p-median problem in the form of the general programming problem, we need a set of constraint equations that must be satisfied by the objective function. These constraint equations can be formulated by specifying the terms of the model in its physical specificities/limitations.
+</p>
+
+<p>
+  We begin by establishing constraints with respect to our two introduce binary variables, $x_z$ and $y_{iz}$. By definition, both of these variables may only take on one of two values, $1$ or $0$. Hence, our first two contraints are of the form
+  $$x_z \in \{0,1\},\ \forall\ z = 1,2,\ldots,m$$
+  and
+  $$y_{iz} \in \{0,1\},\ \forall\ i = 1,2,\ldots,n \text{ and } \forall\ z = 1,2,\ldots,m$$
+  We see that these contraints satisfy $\eqref{eq3}$.
+</p>
+
+<p>
+  Next, we consider contraints based on what exactly it is that we are trying to do for each of these two variables. For the candidate facility variable, $x_z$, we desire to select $p$ nodes out of the set $V|_{F_p} \subseteq V$: no more, no less; hence, our next contraint is of the form
+  $$\sum_{z=1}^m x_z = p$$
+  With respect to the facility assignment variable, $y_{iz}$, we desire to assign each vertex $v_i \in V$ one and only one facility, $\mathscr f_z \in F_p$; hence, we have established a fourth constraint to be of the form
+  $$\sum_{z=1}^m y_{iz} = 1,\ \forall\ z=1,2,\ldots,m$$
+  We see that these contraints satisfy $\eqref{eq2}$.
+</p>
+
+<p>
+  Considering the constraint $\eqref{eq2}$ of the general linear programming problem in terms of multiple-indexed variables, we should also establish constraints of any linear combination of the single-indexed and multi-indexed variables. Thus, we must consider interactions between our two binary variables. Because $x_z$ is assigned independently from $y_{iz}$, no restriction is applied onto $x_z$ from $y_{iz}$. However, when assigning a facility $\mathscr f_z$ for a given node $v_i$, we must be sure that the precise vertex corresponding to the given $z$ in $\{1,2,\ldots,m\}$ (that is, $v_{\mathscr f_z} \in V$) has <it>actually</it> been assigned to the potential median set<sup><a href="#section3">[iii]</a></sup>. We make this mathematically stated by observing that from the two values each binary variable can take on, four possible states can occur:
+  <ol>
+  <li>$y_{iz} = 0$ and $x_z = 0$; node $v_i$ is not assigned to facility $\mathscr f_z$, and $v_{\mathscr f_z}$ is not assigned to the potential median set $\implies$ <b>no problem</b></li>
+  <li>$y_{iz} = 0$ and $x_z = 1$; node $v_i$ is not assigned to facility $\mathscr f_z$, and $v_{\mathscr f_z}$ is assigned to the potential median set $\implies$ <b>no problem</b></li>
+  <li>$y_{iz} = 1$ and $x_z = 0$; node $v_i$ is assigned to facility $\mathscr f_z$, and $v_{\mathscr f_z}$ is not assigned to the potential median set $\implies$ <b>problem</b></li>
+  <li>$y_{iz} = 1$ and $x_z = 1$; node $v_i$ is assigned to facility $\mathscr f_z$, and $v_{\mathscr f_z}$ is also assigned to the potential median set $\implies$ <b>no problem</b></li>
+  </ol>
+  Hence, our contraint must be of the form such that state (3.) above does not not occur. From inspection, we observe that $y_{iz} - x_z \le 0$ for all cases except for the problematic case. Thus, we can establish a constraint that satisfies the above restriction of the form
+  $$y_{iz} - x_z \le 0,\ \forall\ i=1,2,\ldots,n\ , \text{ and } \forall z=1,2,\ldots,m$$
+  We see that this constraint satisfies $\eqref{eq2}$ in the context of multiple variables.
+</p>
+
+<p>
+  For the constraint $\eqref{eq4}$, we will make restrictions on all constants involved in $\eqref{eq1}$ and $\eqref{eq2}$. Clearly, $c_z \in \Bbb R$. Next, by denoting $\alpha_{iz} = 1$, $\beta_z = p$, $\eta_{iz} = 1$, and $\mu_{iz} =1$ we can rewrite
+  $$\sum_{z=1}^m x_z = p \text{ as } \sum_{z=1}^m \alpha_{iz} x_z = \beta_z,\ \forall\ z=1,2,\ldots,m$$
+  and
+  $$\sum_{z=1}^m y_{iz} = 1,\ \forall\ z=1,2,\ldots,m \text{ as } \sum_{z=1}^m \eta_{iz} y_{iz} = \mu_{iz},\ \forall\ z=1,2,\ldots,m$$
+  where $\alpha_{iz}, \eta_{iz} \in \Bbb R$ and $\beta_z, \mu_{iz} \ge 0$.
+  Finally, we have already established that $m \lt n$. Thus, we have established that $\eqref{eq4}$ is satisfied.
+</p>
+
+<p>
+  We can finally write the p-median problem in terms of the general linear programming problem:
+  <blockquote>
+  Minimize
+  $$\Gamma_z = \sum_{z=1}^m x_z c_z \tag{1}$$
+  subject to
+  $$ \sum_{z=1}^m \alpha_{iz} x_z = \beta_z \text{ and } \sum_{z=1}^m \eta_{iz} y_{iz} = \mu_{iz},\ \forall\ z=1,2,\ldots,m \tag{2}$$
+  and 
+  $$x_z \in \{0,1\},\ \forall\ z = 1,2,\ldots,m \text{ and } y_{iz} \in \{0,1\},\ \forall\ i = 1,2,\ldots,n \text{ and } \forall\ z = 1,2,\ldots,m \tag{3}$$
+  where 
+  $$\alpha_{iz}, \eta_{iz}, c_z \in \Bbb R \text{, } \beta_z, \mu_{iz} \ge 0 \text{, and } m\lt n \tag{4}$$
+  </blockquote>
+</p>
 
 
 
 
 
 
+
+# Finding a Solution to a Linear Programming Problem
 
 
 
 # References:
-<p id="section1">[i] "(PDF) A New Template for Solving p-Median Problems for Trees in Sub-Quadratic Time." ResearchGate. Accessed April 22, 2019.     <cite>https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time</cite>.</p>
-<p id="section2">[ii] For simplicity, by the term "tree-metric distance" here, we are meaning to say that the distance between any two nodes of $T$ is given by the "tree-path" distance described by the topology of the tree itself.
 
-
+<div class="reference">
+  <p id="section1" style="margin-bottom: 7px; line-height=1">[i] "(PDF) A New Template for Solving p-Median Problems for Trees in Sub-Quadratic Time." ResearchGate. Accessed April 22, 2019.     <cite>https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time</cite>.</p>
+  <p id="section2" style= "margin-bottom: 7px; line-height=1;">[ii] For simplicity, by the term "tree-metric distance" here, we are meaning to say that the distance between any two nodes of $\normalsize T$ is given by the "tree-path" distance described by the topology of the tree itself. </p>
+  <p id="section3" style= "margin-bottom: 7px; line-height=1;">[iii] There is a bit of particular nuance with respect to mathematical rigor that is glossed over here: because $\normalsize \min_{\mathscr f_z \in F_p}$ is indexed for all $\normalsize \mathscr f_z \in F_P$ where $\normalsize \scriptsize F_p = (\mathscr f_z\ |\ z = 1,2,\ldots,p\ ,\ p\lt n )$ contains $\normalsize p$ terms, $\normalsize \mathscr f_z$, whereas $\normalsize \sum_{z=1}^m y_{iz}$ is indexed for all $\normalsize v_{\mathscr f_z} \in V \iff v_z \in V|_{F_p}$  where $\normalsize V|_{F_p} = (v_z\ |\ z=1,2,\ldots,m\ ,\ m \gt p\ \land\ m \le n$ contains $\normalsize m$ terms, both <b>using the same index $\normalsize \mathscr f_z$ when switching from $\normalsize \min_{\mathscr f_z \in F_p}$ to $\normalsize \sum_{z=1}^m y_{iz}$</b> as well as <b>considering the index to switch from $\normalsize p$ terms to $\normalsize m$ terms</b> are an abuse of mathematical notation. However, because the additional term $\normalsize y_{i{z_0}},\ \forall\ i=1,2,\ldots,n$ evaluated at some $\normalsize z_0 \in (1,2,\ldots,m)$ is equal to zero whenever it so happens that the term $\normalsize \mathscr f_{z_0} \notin F_p$ but is equal to one otherwise, the result is the same; for the sake of brevity, then, this mathematical abuse of notation is used for this paper. </p>
+  <p id="section4" style= "margin-bottom: 7px; line-height=1;">[iv] More specifically, $\normalsize c_z$ is linear in terms of $\normalsize z$ <it>with respect to</it> $\normalsize i$. However, because $\normalsize \gamma (\mathscr f_z) \cdot n^{-1} +  w_{v_i} y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}$ is linear in terms of $\normalsize i,\ \forall\ i=1,2,\ldots,n$, the linearity of the objective function still follows accordingly.</p>
+</div>

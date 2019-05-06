@@ -177,6 +177,12 @@ $(document).ready(function () {
     font-size: 17px !important;
     font-family: "Times New Roman", Times, serif !important;
   }
+  
+  .reference {
+    font-size: 13px;
+    font-family:"Times New Roman", Times, serif;
+    margin: 10px 20px;
+  }
 </style>
 <div id="the-statement-of-the-problem" class="section level1">
 <h1>The Statement of the Problem</h1>
@@ -279,9 +285,16 @@ Recall that the set <span class="math inline">\(A\)</span> is defined such that 
 Hence, the distance between arbitrary vertex <span class="math inline">\(v_i \in V\)</span> and arbitrary potential facility location <span class="math inline">\(\mathscr f_z \in F_p\)</span> is <span class="math display">\[\delta (v_i,\mathscr f_z) = \sum_{r=1}^{q-1} a_{\epsilon_r} = \sum_{r=1}^{q-1} \lVert \varepsilon_r (v_i,\mathscr f_z) \rVert = \sum_{r=1}^{q-1} \lVert \epsilon_r \rVert = \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}&#39;\rVert\]</span> leading to <span class="math display">\[\psi_{F_p} (v_i) = w_{v_i} \cdot \delta (v_i,F_p) = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \delta (v_i,\mathscr f_z) = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\epsilon_r} - v_{\epsilon_r}&#39;\rVert = w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} \lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}&#39;\rVert\]</span> Satisfied with our notation, we will from here on out write <span class="math inline">\(\lVert v_{\varepsilon_r (v_i,\mathscr f_z)} - v_{\varepsilon_r (v_i,\mathscr f_z)}&#39;\rVert\)</span> as <span class="math inline">\(a_{\varepsilon_r (v_i,\mathscr f_z)}\)</span> and take the notational convention that <span class="math inline">\(a_{\epsilon_r} \gt 0\)</span>.Thus, <span class="math display">\[\Gamma(F_p)=\sum_{\mathscr f_z \in F_p} \gamma(\mathscr f_z) +\sum_{v_i \in V} \psi_{F_p} (v_i) = \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{v_i \in V} w_{v_i} \cdot \min_{\mathscr f_z \in F_p} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\]</span>
 </p>
 <p>
-<p>At this point, we will introduce into the objective function one of the variables we defined earlier, <span class="math inline">\(y_{iz}\)</span>. We will do this in order to make precise what is meant by “<span class="math inline">\(\min_{\mathscr f_z \in F_p}\)</span>”; let <span class="math inline">\(i = 1, 2, \ldots, n\)</span> denote a given vertex <span class="math inline">\(v_i \in V\)</span> and let <span class="math inline">\(z = 1,2,\ldots,m\ |\ m \le n\)</span> denote a given vertex <span class="math inline">\(v_{\mathscr f_z} \in V\)</span> from a subset of vertices $V|_{F_p} V $ from which candidate facility locations may be selected.By defining <span class="math display">\[y_{iz} = 1 \text{ if } v_i \text{ served by } \mathscr f_z, 0 \text{ o.w.}\]</span>, we can replace <span class="math inline">\(\sum_{\mathscr f_z in F_P}\)</span> by <span class="math inline">\(\sum_{z=1}^m\)</span>, which allows us to use linear programming algorithms to solve the objective function. Our objective function is now <span class="math display">\[\Gamma(F_p)== \sum_{\mathscr f_z \in F_p} \gamma (\mathscr f_z) + \sum_{i=1}^n w_{v_i} \cdot \sum_{z=1}^m \sum_{r=1}^{q-1} y_{iz} \cdot a_{\varepsilon_r (v_i,\mathscr f_z)}\]</span></p>
+At this point, we will introduce into the objective function one of the variables we defined earlier, <span class="math inline">\(y_{iz}\)</span>. We will do this in order to make precise what is meant by “<span class="math inline">\(\min_{\mathscr f_z \in F_p}\)</span>”. Let <span class="math inline">\(i = 1, 2, \ldots, n\)</span> denote a given vertex <span class="math inline">\(v_i \in V\)</span> and let <span class="math inline">\(z = 1,2,\ldots,m\ |\ m \le n\)</span> denote a given vertex <span class="math inline">\(v_{\mathscr f_z} \in V\)</span> from a subset of vertices <span class="math inline">\(V|_{F_p} \subseteq V\)</span> from which candidate facility locations may be selected; we will use the convention <span class="math inline">\(v_z \in V|_{F_p}\)</span> equivalently with <span class="math inline">\(v_{\mathscr f_z} \in V\)</span>. We define this by <span class="math display">\[y_{iz} = 1 \text{ if } v_i \text{ served by } \mathscr f_z, 0 \text{ o.w.}\]</span> We also now define <span class="math inline">\(x_z\)</span> to establish exactly how and to what the assignment of <span class="math inline">\(F_p\)</span> involves by: <span class="math display">\[x_z = 1 \text{ if } v_z \in V|_{F_p} \text{ is to be a facility location ition in the potential median set}, 0 \text{ o.w. }\]</span>
+</p>
 <p>
-Lastly, we define <span class="math inline">\(x_z\)</span> to establish exactly how and to what the assignment of <span class="math inline">\(F_p\)</span> involves: <span class="math display">\[x_z = 1 \text{ if } v_z \in V|_{F_p} \text{ is to be a facility location ition in the potential median set}, 0 \text{ o.w. }\]</span>
+Using these variables, we can now replace <span class="math inline">\(\min_{\mathscr f_z \in F_P}\)</span> by <span class="math inline">\(\sum_{z=1}^m y_{iz}\)</span> and replace <span class="math inline">\(\sum_{\mathscr f_z \in F_P}\)</span> with <span class="math inline">\(\sum_{z=1}^m x_z\)</span><sup><a href="section3">[iii]</a></sup>, which allows us to use linear programming algorithms to solve the objective function. Our objective function is now <span class="math display">\[\Gamma_{iz}= \sum_{z=1}^m x_z \cdot \gamma (\mathscr f_z) + \sum_{i=1}^n w_{v_i} \cdot \sum_{z=1}^m y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\]</span> We can then distribute <span class="math inline">\(\sum_{i=1}^n w_{v_i}\)</span> into the sum <span class="math inline">\(\sum_{z=1}^{m}\)</span>, leading to <span class="math display">\[\Gamma_{iz} = \sum_{z=1}^m x_{z}\cdot \gamma (\mathscr f_z) + \sum_{z=1}^m\ \Bigl( \sum_{i=1}^n w_{v_i} y_{iz} \cdot \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)} \Bigr)\]</span>
+</p>
+<p>
+Now, WLOG, because <span class="math display">\[y_{iz} = 1 \implies x_z = 1\]</span> we may multiply the quantity in the large parenthesis of the second term by x_z and keep equality with our previous formula for our objective function; that is, <span class="math display">\[\Gamma_{iz} = \sum_{z=1}^m x_{z} \cdot \gamma (\mathscr f_z) + \sum_{z=1}^m\ x_z \cdot \Bigl( \sum_{i=1}^n w_{v_i} y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)} \Bigr)\]</span> This allows us to distribute <span class="math inline">\(\sum_{z=1}^m x_z\)</span> out of both quantities, leading to <span class="math display">\[\sum_{z=1}^m x_z \cdot \Bigl(\ \gamma (\mathscr f_z) + \sum_{i=1}^n w_{v_i} y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\ \Bigr) = \sum_{z=1}^m x_z \cdot \biggl(\ \sum_{i=1}^n \Bigl(\ \gamma (\mathscr f_z) \cdot n^{-1} +  w_{v_i} y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\ \Bigr)\ \biggr)\]</span>
+</p>
+<p>
+Finally, if we denote by <span class="math inline">\(c_z\)</span> the value of the quantity within the largest parentheses at a given value <span class="math inline">\(z = 1, 2, \ldots, m\)</span>, we can write the objective function as <span class="math display">\[\Gamma_z = \sum_{z=1}^m x_z c_z\]</span> Because <span class="math inline">\(c_z\)</span> is linear in terms of <span class="math inline">\(z\)</span><sup><a href="#section4">[iv]</a></sup>, we have established that the objective function we have developed for the p-median problem fits the form of <span class="math inline">\(\eqref{eq1}\)</span>, as desired.
 </p>
 <p>
 A quick review of our notation used thus far:
@@ -322,6 +335,11 @@ A quick review of our notation used thus far:
 <li>
 <span class="math inline">\(\varepsilon: (v_i,\mathscr f_z,r) \mapsto \epsilon\)</span> represents the set of edges <span class="math inline">\(\varepsilon_r (v_i,\mathscr f_z) = (\Phi \circ \phi)_r (v_i,\mathscr f_z)= \epsilon_r\)</span> (in sequential order) spanned by <span class="math inline">\(K\)</span> going from a given demand node <span class="math inline">\(v_i \in V\)</span> to any facility location <span class="math inline">\(\mathscr f_z\)</span> in the potential median set, <span class="math inline">\(F_p\)</span>
 </li>
+<li>
+<span class="math inline">\(y_{iz}\)</span> indicates whether or not vertex <span class="math inline">\(v_i \in V\)</span> is served by facility <span class="math inline">\(\mathscr f_z \in F_p\)</span>
+</li>
+<li>
+<span class="math inline">\(x_z\)</span> indicates whether or not candidate facility <span class="math inline">\(v_z \in V|_{F_p}\)</span> lies in the potential median set <span class="math inline">\(F_p\)</span>
 </ul>
 </p>
 </div>
@@ -331,18 +349,59 @@ A quick review of our notation used thus far:
 In order to finish establishing the p-median problem in the form of the general programming problem, we need a set of constraint equations that must be satisfied by the objective function. These constraint equations can be formulated by specifying the terms of the model in its physical specificities/limitations.
 </p>
 <p>
-<p>We first consider the weights attached to each node <span class="math inline">\(v_i\)</span> within the model. By definition, all of these weights must sum to one. Hence, our first constraint is of the form <span class="math display">\[\sum_{i=1}^n w_{v_i} = 1\]</span></p>
+We begin by establishing constraints with respect to our two introduce binary variables, <span class="math inline">\(x_z\)</span> and <span class="math inline">\(y_{iz}\)</span>. By definition, both of these variables may only take on one of two values, <span class="math inline">\(1\)</span> or <span class="math inline">\(0\)</span>. Hence, our first two contraints are of the form <span class="math display">\[x_z \in \{0,1\},\ \forall\ z = 1,2,\ldots,m\]</span> and <span class="math display">\[y_{iz} \in \{0,1\},\ \forall\ i = 1,2,\ldots,n \text{ and } \forall\ z = 1,2,\ldots,m\]</span> We see that these contraints satisfy <span class="math inline">\(\eqref{eq3}\)</span>.
+</p>
+<p>
+Next, we consider contraints based on what exactly it is that we are trying to do for each of these two variables. For the candidate facility variable, <span class="math inline">\(x_z\)</span>, we desire to select <span class="math inline">\(p\)</span> nodes out of the set <span class="math inline">\(V|_{F_p} \subseteq V\)</span>: no more, no less; hence, our next contraint is of the form <span class="math display">\[\sum_{z=1}^m x_z = p\]</span> With respect to the facility assignment variable, <span class="math inline">\(y_{iz}\)</span>, we desire to assign each vertex <span class="math inline">\(v_i \in V\)</span> one and only one facility, <span class="math inline">\(\mathscr f_z \in F_p\)</span>; hence, we have established a fourth constraint to be of the form <span class="math display">\[\sum_{z=1}^m y_{iz} = 1,\ \forall\ z=1,2,\ldots,m\]</span> We see that these contraints satisfy <span class="math inline">\(\eqref{eq2}\)</span>.
+</p>
+<p>
+Considering the constraint <span class="math inline">\(\eqref{eq2}\)</span> of the general linear programming problem in terms of multiple-indexed variables, we should also establish constraints of any linear combination of the single-indexed and multi-indexed variables. Thus, we must consider interactions between our two binary variables. Because <span class="math inline">\(x_z\)</span> is assigned independently from <span class="math inline">\(y_{iz}\)</span>, no restriction is applied onto <span class="math inline">\(x_z\)</span> from <span class="math inline">\(y_{iz}\)</span>. However, when assigning a facility <span class="math inline">\(\mathscr f_z\)</span> for a given node <span class="math inline">\(v_i\)</span>, we must be sure that the precise vertex corresponding to the given <span class="math inline">\(z\)</span> in <span class="math inline">\(\{1,2,\ldots,m\}\)</span> (that is, <span class="math inline">\(v_{\mathscr f_z} \in V\)</span>) has <it>actually</it> been assigned to the potential median set<sup><a href="#section3">[iii]</a></sup>. We make this mathematically stated by observing that from the two values each binary variable can take on, four possible states can occur:
+<ol>
+<li>
+<span class="math inline">\(y_{iz} = 0\)</span> and <span class="math inline">\(x_z = 0\)</span>; node <span class="math inline">\(v_i\)</span> is not assigned to facility <span class="math inline">\(\mathscr f_z\)</span>, and <span class="math inline">\(v_{\mathscr f_z}\)</span> is not assigned to the potential median set <span class="math inline">\(\implies\)</span> <b>no problem</b>
+</li>
+<li>
+<span class="math inline">\(y_{iz} = 0\)</span> and <span class="math inline">\(x_z = 1\)</span>; node <span class="math inline">\(v_i\)</span> is not assigned to facility <span class="math inline">\(\mathscr f_z\)</span>, and <span class="math inline">\(v_{\mathscr f_z}\)</span> is assigned to the potential median set <span class="math inline">\(\implies\)</span> <b>no problem</b>
+</li>
+<li>
+<span class="math inline">\(y_{iz} = 1\)</span> and <span class="math inline">\(x_z = 0\)</span>; node <span class="math inline">\(v_i\)</span> is assigned to facility <span class="math inline">\(\mathscr f_z\)</span>, and <span class="math inline">\(v_{\mathscr f_z}\)</span> is not assigned to the potential median set <span class="math inline">\(\implies\)</span> <b>problem</b>
+</li>
+<li>
+<span class="math inline">\(y_{iz} = 1\)</span> and <span class="math inline">\(x_z = 1\)</span>; node <span class="math inline">\(v_i\)</span> is assigned to facility <span class="math inline">\(\mathscr f_z\)</span>, and <span class="math inline">\(v_{\mathscr f_z}\)</span> is also assigned to the potential median set <span class="math inline">\(\implies\)</span> <b>no problem</b>
+</li>
+</ol>
+Hence, our contraint must be of the form such that state (3.) above does not not occur. From inspection, we observe that <span class="math inline">\(y_{iz} - x_z \le 0\)</span> for all cases except for the problematic case. Thus, we can establish a constraint that satisfies the above restriction of the form <span class="math display">\[y_{iz} - x_z \le 0,\ \forall\ i=1,2,\ldots,n\ , \text{ and } \forall z=1,2,\ldots,m\]</span> We see that this constraint satisfies <span class="math inline">\(\eqref{eq2}\)</span> in the context of multiple variables.
+</p>
+<p>
+For the constraint <span class="math inline">\(\eqref{eq4}\)</span>, we will make restrictions on all constants involved in <span class="math inline">\(\eqref{eq1}\)</span> and <span class="math inline">\(\eqref{eq2}\)</span>. Clearly, <span class="math inline">\(c_z \in \Bbb R\)</span>. Next, by denoting <span class="math inline">\(\alpha_{iz} = 1\)</span>, <span class="math inline">\(\beta_z = p\)</span>, <span class="math inline">\(\eta_{iz} = 1\)</span>, and <span class="math inline">\(\mu_{iz} =1\)</span> we can rewrite <span class="math display">\[\sum_{z=1}^m x_z = p \text{ as } \sum_{z=1}^m \alpha_{iz} x_z = \beta_z,\ \forall\ z=1,2,\ldots,m\]</span> and <span class="math display">\[\sum_{z=1}^m y_{iz} = 1,\ \forall\ z=1,2,\ldots,m \text{ as } \sum_{z=1}^m \eta_{iz} y_{iz} = \mu_{iz},\ \forall\ z=1,2,\ldots,m\]</span> where <span class="math inline">\(\alpha_{iz}, \eta_{iz} \in \Bbb R\)</span> and <span class="math inline">\(\beta_z, \mu_{iz} \ge 0\)</span>. Finally, we have already established that <span class="math inline">\(m \lt n\)</span>. Thus, we have established that <span class="math inline">\(\eqref{eq4}\)</span> is satisfied.
+</p>
+<p>
+We can finally write the p-median problem in terms of the general linear programming problem:
+<blockquote>
+Minimize <span class="math display">\[\Gamma_z = \sum_{z=1}^m x_z c_z \tag{1}\]</span> subject to <span class="math display">\[ \sum_{z=1}^m \alpha_{iz} x_z = \beta_z \text{ and } \sum_{z=1}^m \eta_{iz} y_{iz} = \mu_{iz},\ \forall\ z=1,2,\ldots,m \tag{2}\]</span> and <span class="math display">\[x_z \in \{0,1\},\ \forall\ z = 1,2,\ldots,m \text{ and } y_{iz} \in \{0,1\},\ \forall\ i = 1,2,\ldots,n \text{ and } \forall\ z = 1,2,\ldots,m \tag{3}\]</span> where <span class="math display">\[\alpha_{iz}, \eta_{iz}, c_z \in \Bbb R \text{, } \beta_z, \mu_{iz} \ge 0 \text{, and } m\lt n \tag{4}\]</span>
+</blockquote>
+</p>
 </div>
+</div>
+<div id="finding-a-solution-to-a-linear-programming-problem" class="section level1">
+<h1>Finding a Solution to a Linear Programming Problem</h1>
 </div>
 <div id="references" class="section level1">
 <h1>References:</h1>
-<p id="section1">
+<div class="reference">
+<p id="section1" style="margin-bottom: 7px; line-height=1">
 [i] “(PDF) A New Template for Solving p-Median Problems for Trees in Sub-Quadratic Time.” ResearchGate. Accessed April 22, 2019. <cite><a href="https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time" class="uri">https://www.researchgate.net/publication/220770539_A_New_Template_for_Solving_p-Median_Problems_for_Trees_in_Sub-quadratic_Time</a></cite>.
 </p>
-<p id="section2">
-[ii] For simplicity, by the term “tree-metric distance” here, we are meaning to say that the distance between any two nodes of <span class="math inline">\(T\)</span> is given by the “tree-path” distance described by the topology of the tree itself.
-<p id="section3">
-<p>[iii] More specifically, <span class="math inline">\(a_{\varepsilon_r (v_i,\mathscr f_z)}\)</span> is linear in terms of <span class="math inline">\(F_p\)</span> <it>with respect to</it> each <span class="math inline">\(v_i \in V\)</span>. However, because <span class="math inline">\(\psi_{F_p} (v_i)\)</span> is linear in terms of <span class="math inline">\(v_i\)</span>, the linearty of the objective function still follows accordingly.</p>
+<p id="section2" style="margin-bottom: 7px; line-height=1;">
+[ii] For simplicity, by the term “tree-metric distance” here, we are meaning to say that the distance between any two nodes of <span class="math inline">\(\normalsize T\)</span> is given by the “tree-path” distance described by the topology of the tree itself.
+</p>
+<p id="section3" style="margin-bottom: 7px; line-height=1;">
+[iii] There is a bit of particular nuance with respect to mathematical rigor that is glossed over here: because <span class="math inline">\(\normalsize \min_{\mathscr f_z \in F_p}\)</span> is indexed for all <span class="math inline">\(\normalsize \mathscr f_z \in F_P\)</span> where <span class="math inline">\(\normalsize \scriptsize F_p = (\mathscr f_z\ |\ z = 1,2,\ldots,p\ ,\ p\lt n )\)</span> contains <span class="math inline">\(\normalsize p\)</span> terms, <span class="math inline">\(\normalsize \mathscr f_z\)</span>, whereas <span class="math inline">\(\normalsize \sum_{z=1}^m y_{iz}\)</span> is indexed for all <span class="math inline">\(\normalsize v_{\mathscr f_z} \in V \iff v_z \in V|_{F_p}\)</span> where <span class="math inline">\(\normalsize V|_{F_p} = (v_z\ |\ z=1,2,\ldots,m\ ,\ m \gt p\ \land\ m \le n\)</span> contains <span class="math inline">\(\normalsize m\)</span> terms, both <b>using the same index <span class="math inline">\(\normalsize \mathscr f_z\)</span> when switching from <span class="math inline">\(\normalsize \min_{\mathscr f_z \in F_p}\)</span> to <span class="math inline">\(\normalsize \sum_{z=1}^m y_{iz}\)</span></b> as well as <b>considering the index to switch from <span class="math inline">\(\normalsize p\)</span> terms to <span class="math inline">\(\normalsize m\)</span> terms</b> are an abuse of mathematical notation. However, because the additional term <span class="math inline">\(\normalsize y_{i{z_0}},\ \forall\ i=1,2,\ldots,n\)</span> evaluated at some <span class="math inline">\(\normalsize z_0 \in (1,2,\ldots,m)\)</span> is equal to zero whenever it so happens that the term <span class="math inline">\(\normalsize \mathscr f_{z_0} \notin F_p\)</span> but is equal to one otherwise, the result is the same; for the sake of brevity, then, this mathematical abuse of notation is used for this paper.
+</p>
+<p id="section4" style="margin-bottom: 7px; line-height=1;">
+[iv] More specifically, <span class="math inline">\(\normalsize c_z\)</span> is linear in terms of <span class="math inline">\(\normalsize z\)</span> <it>with respect to</it> <span class="math inline">\(\normalsize i\)</span>. However, because <span class="math inline">\(\normalsize \gamma (\mathscr f_z) \cdot n^{-1} + w_{v_i} y_{iz} \sum_{r=1}^{q-1} a_{\varepsilon_r (v_i,\mathscr f_z)}\)</span> is linear in terms of <span class="math inline">\(\normalsize i,\ \forall\ i=1,2,\ldots,n\)</span>, the linearity of the objective function still follows accordingly.
+</p>
+</div>
 </div>
 
 
